@@ -1,15 +1,16 @@
 #!/bin/bash
 
 # Install Scripts
+sudo rm "/usr/bin/update-scripts-link" 2> /dev/null
 sudo ln -s $hypr/scripts/update-scripts-link /usr/bin/update-scripts-link
-/usr/bin/update-scripts-link
+update-scripts-link
 
 # Link Configurations
 CONFIGS=""
 
 add_config_folder() {
     if [ -z "$CONFIGS" ]; then
-        TARGETS="$1"
+        CONFIGS="$1"
     else
         CONFIGS="$CONFIGS:$1"
     fi
@@ -23,9 +24,11 @@ OLDIFS="$IFS"
 IFS=":"
 for cf in $CONFIGS; do
     if [ -d "$cf" ] || [ -f "$cf" ]; then
+        echo "Removing current link: $hypr/$(basename "$cf")"
         rm -Rf "$cf"
     fi
-
+    
+    echo "Creating new link for: $hypr/$(basename "$cf")"
     ln -s "$hypr/$(basename "$cf")" "$cf"
 done
 IFS="$OLDIFS"
