@@ -9,11 +9,7 @@ update-scripts-link
 CONFIGS=""
 
 add_config_folder() {
-    if [ -z "$CONFIGS" ]; then
-        CONFIGS="$1"
-    else
-        CONFIGS="$CONFIGS:$1"
-    fi
+    CONFIGS=$([ -z "$CONFIGS" ] && echo "$1" || echo "$CONFIGS:$1")
 }
 
 add_config_folder "$HOME/.config/nvim"

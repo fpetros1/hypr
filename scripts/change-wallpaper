@@ -7,11 +7,7 @@ add_wallpaper_from_folder() {
     IFS=$(echo -en "\n\b")
     FILES=$(ls "$1")
     for f in ${FILES[@]}; do
-        if [ -d "$1/$f" ]; then
-            add_wallpaper_from_folder "$1/$f"
-        else
-            add_wallpaper "$1/$f"
-        fi
+        [ -d "$1/$f" ] && add_wallpaper_from_folder "$1/$f" || add_wallpaper "$1/$f"
     done
     IFS="$SAVEIFS"
 }
@@ -20,16 +16,30 @@ add_wallpaper() {
     if [ -f "$1" ]; then
         EXTENSION=$(echo $(basename "$1") | cut -d '.' -f 2)
         if [ $EXTENSION == "png" ] || [ $EXTENSION == "jpg" ]; then
-            if [ -z "$WALLPAPERS" ]; then
-                WALLPAPER_LIST=$1
-            else
-                WALLPAPER_LIST="$WALLPAPER_LIST\n$1"
-            fi
+            WALLPAPER_LIST=$([ -z "$WALLPAPERS" ] && echo $1 || echo "$WALLPAPER_LIST\n$1")
         fi
     fi
 }
 
-WALLPAPER_FOLDERS="$HOME/.local/share/wallpapers:/usr/share/wallpapers"
+WALLPAPER_FOLDERS=""
+
+add_wallpaper_folder() {
+    WALLPAPER_FOLDERS=$([ -z "$WALLPAPER_FOLDERS" ] && echo "$1" || echo "$WALLPAPER_FOLDERS:$1")
+}
+
+add_wallpaper_folder "$HOME/.local/share/wallpapers"
+add_wallpaper_folder "/usr/share/wallpapers"
+
+for extraInArguments in "$@"; do
+    add_wallpaper_folder "$extraInArguments"
+done
+
+EXTRA_FROM_FILE=$(cat "$hypr/extra_wallpaper_folders.txt")
+
+for extraInFile in "$EXTRA_FROM_FILE"; do
+    add_wallpaper_folder "$extraInFile"
+done
+
 WALLPAPER_LIST=""
 
 OLDIFS="$IFS"
@@ -40,16 +50,19 @@ done
 IFS="$OLDIFS"
 
 WALLPAPER_OPTS=$(echo -e "$WALLPAPER_LIST" | map basename)
-
 SELECTED_FILE=$(echo "$WALLPAPER_OPTS" | tofi --prompt-text="Choose Wallpaper:" -c $hypr/tofi/config)
-SELECTED=$(echo -e $WALLPAPER_LIST | grep "$SELECTED_FILE")
 
-MONITORS=$(hyprctl monitors -j | jq '[.[]]|sort_by(.name)' | jq -r '.[].name')
-OUTPUT="splash = false\n\npreload = $SELECTED\n"
+if [ ! -z "$SELECTED_FILE" ]; then
+    SELECTED=$(echo -e $WALLPAPER_LIST | grep "$SELECTED_FILE")
 
-for monitor in $MONITORS; do
-   OUTPUT="$OUTPUT\nwallpaper = $monitor,$SELECTED" 
-done
+    MONITORS=$(hyprctl monitors -j | jq '[.[]]|sort_by(.name)' | jq -r '.[].name')
+    OUTPUT="splash = false\n\npreload = $SELECTED\n"
 
-echo -e $OUTPUT > $hypr/hyprpaper.conf
+    for monitor in $MONITORS; do
+       OUTPUT="$OUTPUT\nwallpaper = $monitor,$SELECTED" 
+    done
+
+    echo -e $OUTPUT > $hypr/hyprpaper.conf
+fi
+
 

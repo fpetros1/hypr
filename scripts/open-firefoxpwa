@@ -1,0 +1,6 @@
+#!/bin/bash
+
+DESKTOP_FILE=$(get-firefoxpwa-desktop-file "$1")
+EXEC_LINE=$(cat $DESKTOP_FILE | grep "Exec=" | cut -d "=" -f2- | sed 's/\%u//')
+
+exec $EXEC_LINE

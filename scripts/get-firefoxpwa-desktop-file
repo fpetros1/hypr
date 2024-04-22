@@ -1,0 +1,3 @@
+#!/bin/bash
+
+echo -n $(rg "$1" $HOME/.local/share/applications | head -n 1 | cut -d ":" -f1)

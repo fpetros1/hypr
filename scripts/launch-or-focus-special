@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [[ -z $(pgrep "$1") ]]; then
+    "$1"
+    exit
+fi
+
+source $(which set-hyprland-socket)
+exec hyprctl dispatch togglespecialworkspace "$1"

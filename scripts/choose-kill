@@ -1,0 +1,9 @@
+#!/bin/bash
+
+TARGET=$(ps ax -o pid,cmd | tofi --prompt-text="Kill:" --width="60%" --height="50%" -c "$hypr/tofi/config")
+
+if [ ! -z "$TARGET" ]; then
+    PID=$(echo "$TARGET" | cut -d ' ' -f 2)
+    kill $PID
+fi
+

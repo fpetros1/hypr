@@ -1,0 +1,21 @@
+#!/bin/bash
+
+DISCORD_WEBFOX_APP_NAME="Discord WebFox"
+
+FFPWA_ID=$(get-firefoxpwa-id "$DISCORD_WEBFOX_APP_NAME")
+
+toggle_workspace_discord() {
+    CURRENT_WS=$(hyprctl activeworkspace -j | jq -r '.name')
+    if [ ! CURRENT_WS == "special:discord" ]; then
+        hyprctl dispatch togglespecialworkspace discord
+    fi
+}
+
+source $(which set-hyprland-socket)
+
+if [[ -z $(pgrep -f "$FFPWA_ID") ]]; then
+    open-firefoxpwa "$DISCORD_WEBFOX_APP_NAME"
+fi
+
+hyprctl dispatch movetoworkspace "special:discord,$FFPWA_ID"
+toggle_workspace_discord

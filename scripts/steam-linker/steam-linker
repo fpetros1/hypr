@@ -96,16 +96,16 @@ do
 	if ! [ "$APP_ID" = "0" ]; then
 	    GAME_NAME=$(jq "[.applist.apps[] | select(.appid == $APP_ID)][0]" $STEAMAPPS_JSON | jq -r '.name')
 	    if ! [ "$GAME_NAME" = "" ] && ! [ "$GAME_NAME" = "null" ]; then
-		FOLDER_NAME=$(patch_game_name "$GAME_NAME")
+		    FOLDER_NAME=$(patch_game_name "$GAME_NAME")
 	        GAME_DIR="$COMPAT_STEAM_DIR/../common/$FOLDER_NAME"
 	        if [ -d "$GAME_DIR" ]; then
-		    REALPATH_GAME=$(realpath "$GAME_DIR")
-		    rm "$REALPATH_GAME/WINE_PREFIX"
+		        REALPATH_GAME=$(realpath "$GAME_DIR")
+		        rm "$REALPATH_GAME/WINE_PREFIX"
 	            ln -s "$COMPAT_STEAM_DIR/$APP_ID" "$REALPATH_GAME/WINE_PREFIX"
-		    echo "Establishing soft link to prefix in: $REALPATH_GAME/WINE_PREFIX"
-		else
+		        echo "Establishing soft link to prefix in: $REALPATH_GAME/WINE_PREFIX"
+                continue
+            fi
 		    echo "Could not find folder for game: $GAME_NAME"
-	        fi
 	    fi
 	fi
     done

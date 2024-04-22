@@ -1,18 +1,15 @@
 #!/bin/bash
 
 UPDATES=$(checkupdates --nocolor)
-COUNT_UPDATES=$(echo -ne "$UPDATES" | wc -l)
+COUNT_UPDATES=0
 
 OLDIFS="$IFS"
 IFS=$(echo -en "\n\b")
 UPDATE_STRING=""
 
 for update in ${UPDATES[@]}; do
-    if [ -z $UPDATE_STRING ]; then
-        UPDATE_STRING="$update"
-    else
-        UPDATE_STRING="$UPDATE_STRING\n$update"
-    fi
+    UPDATE_STRING=$([ -z $UPDATE_STRING ] && echo "$update" || "$UPDATE_STRING\n$update")
+    COUNT_UPDATES=$(bc <<< "$COUNT_UPDATES+1")
 done
 
 IFS="$OLDIFS"
