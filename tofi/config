@@ -1,0 +1,26 @@
+font = "JetBrainsMono Nerd Font"
+font-size = 14
+hint-font = true
+
+background-color = #181B2899
+selection-color = #FB958B
+outline-width = 0
+border-width = 0
+
+padding-top = 25
+padding-left = 15
+padding-right = 15
+
+width = 25%
+height = 25%
+corner-radius = 20
+
+prompt-text = "Run:"
+prompt-padding = 20
+prompt-color = #FB958B
+text-cursor = true
+text-cursor-style = block
+matching-algorithm = "fuzzy"
+
+history = false
+scale = false

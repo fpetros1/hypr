@@ -1,0 +1,4 @@
+#!/bin/bash
+
+nohup pkill -SIGRTMIN+$1 waybar &> /dev/null &
+

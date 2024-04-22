@@ -1,0 +1,12 @@
+#!/bin/bash
+
+source $(which set-hyprland-socket)
+
+BASE_CMD=""
+CURRENT_WINDOW=$(hyprctl activewindow -j | jq -r '.class')
+
+if [ $CURRENT_WINDOW = "steam" ]; then
+    BASE_CMD="dispatch togglespecialworkspace steami ; "
+fi
+
+hyprctl --batch "$BASE_CMD""dispatch workspace 10"

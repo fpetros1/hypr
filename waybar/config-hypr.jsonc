@@ -1,0 +1,277 @@
+[
+    {
+        "name": "m3440x1440",
+        "output": "DP-1",
+        "layer": "top",
+        "position": "top",
+        "height": 55,
+        "margin-left": 10,
+        "margin-bottom": 0,
+        "margin-right": 10,
+        "spacing": 5,
+        "modules-left": [
+            //"custom/rofi",
+            "hyprland/workspaces",
+            "hyprland/window"
+            //"hyprland/submap",
+            //"idle_inhibitor",
+            //"mpd"
+            //"custom/media"
+        ],
+        "modules-center": [
+            "clock#date",
+            "custom/weather",
+            "custom/pacman"
+            //"custom/gammastep"
+        ],
+        "modules-right": [
+            "cpu",
+            "custom/gpu",
+            "temperature",
+            //"memory",
+            //"battery",
+            //"pulseaudio",
+            "wireplumber",
+            "tray",
+            "custom/notifications"
+        ], 
+        "hyprland/workspaces": {
+            "all-outputs": true,
+            "format": "{name}",
+            "format-icons": {
+                "1": "一",
+                "2": "二",
+                "3": "三",
+                "4": "四",
+                "5": "五",
+                "6": "六",
+                "7": "七",
+                "8": "八",
+                "9": "九",
+                "10": "十"
+            },
+            "on-scroll-up": "hyprctl dispatch workspace e+1 1>/dev/null",
+            "on-scroll-down": "hyprctl dispatch workspace e-1 1>/dev/null",
+            "sort-by-number": true,
+            "active-only": false,
+            "show-special": false
+        },
+        "hyprland/window": {
+            "max-length": 100,
+            "separate-outputs": true
+        },
+        "clock#date": {
+            "format": "🕓  {:%H:%M  📆  %e %b}",
+            "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+            "today-format": "<b>{}</b>"
+        },
+        "custom/pacman": {
+            "format": "<big>󰏔</big>  {}",
+            "interval": 600,
+            "tooltip": true,
+            "return-type": "json",
+            "exec": "get-updates-json-arch",       // # of updates
+            "on-click": "update-waybar 9",
+            "signal": 9,
+            "max-length": 15,
+            "min-length": 5
+        },
+        "custom/weather": {
+            "format": "{}",
+            "format-alt": "{alt}: {}",
+            "format-alt-click": "click-right",
+            "interval": 3600,
+            "exec": "curl -s 'https://wttr.in/?format=1'",
+            "exec-if": "ping wttr.in -c1"
+        },
+        "cpu": {
+            "interval": 1,
+            "format": "<big> </big> {max_frequency}GHz <span color=\"darkgray\">| {usage}%</span>",
+            "min-length": 13
+        },
+        "custom/gpu": {
+            "exec": "print-gpu-stats",
+            "format": "{}",
+            "return-type": "",
+            "interval": 1
+        },
+        "wireplumber": {
+            "on-click": "pavucontrol",
+            "on-click-right": "amixer sset Master toggle 1>/dev/null",
+            "format": "<span foreground='#fab387'>{icon}</span>  {volume}%",
+            "format-muted": " ",
+            "format-source": "",
+            "format-source-muted": "",
+            "format-icons": {
+                "headphone": " ",
+                "hands-free": " ",
+                "headset": " ",
+                "phone": " ",
+                "portable": " ",
+                "car": " ",
+                "default": [" ", " ", " "]
+            }
+        },
+        "tray": {
+            "icon-size": 18,
+            "spacing": 5
+        },
+       "custom/notifications":{
+          "tooltip":false,
+          "format":"{icon}  {}",
+          "format-icons":{
+             "notification":"<span foreground='red'><sup></sup></span>",
+             "none":"",
+             "dnd-notification":"<span foreground='red'><sup></sup></span>",
+             "dnd-none":"",
+             "inhibited-notification":"<span foreground='red'><sup></sup></span>",
+             "inhibited-none":"",
+             "dnd-inhibited-notification":"<span foreground='red'><sup></sup></span>",
+             "dnd-inhibited-none":""
+          },
+          "return-type":"json",
+          "exec-if":"which swaync-client",
+          "exec":"swaync-client -swb",
+          "on-click":"swaync-client -d -sw",
+          "escape":true
+       }
+    },
+    {
+        "name": "m1920x1080",
+        "output": "DP-2",
+        "layer": "top",
+        "position": "top",
+        "height": 55,
+        "margin-left": 10,
+        "margin-bottom": 0,
+        "margin-right": 10,
+        "spacing": 3,
+        "modules-left": [
+            //"custom/rofi",
+            "hyprland/workspaces",
+            "hyprland/window"
+            //"hyprland/submap",
+            //"idle_inhibitor",
+            //"mpd"
+            //"custom/media"
+        ],
+        "modules-center": [
+            "clock#date",
+            "custom/weather",
+            "custom/pacman"
+            //"custom/gammastep"
+        ],
+        "modules-right": [
+            "cpu",
+            "custom/gpu",
+            "temperature",
+            //"memory",
+            //"battery",
+            //"pulseaudio",
+            "wireplumber",
+            "tray",
+            "custom/notifications"
+        ], 
+        "hyprland/workspaces": {
+            "all-outputs": true,
+            "format": "{name}",
+            "format-icons": {
+                "1": "一",
+                "2": "二",
+                "3": "三",
+                "4": "四",
+                "5": "五",
+                "6": "六",
+                "7": "七",
+                "8": "八",
+                "9": "九",
+                "10": "十"
+            },
+            "on-scroll-up": "hyprctl dispatch workspace e+1 1>/dev/null",
+            "on-scroll-down": "hyprctl dispatch workspace e-1 1>/dev/null",
+            "sort-by-number": true,
+            "active-only": false,
+            "show-special": false
+        },
+        "hyprland/window": {
+            "max-length": 60,
+            "separate-outputs": true
+        },
+        "clock#date": {
+            "format": "🕓  {:%H:%M  📆  %e %b}",
+            "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+            "today-format": "<b>{}</b>"
+        },
+        "custom/pacman": {
+            "format": "<big>󰏔</big>  {}",
+            "interval": 600,
+            "tooltip": true,
+            "return-type": "json",
+            "exec": "get-updates-json-arch",       // # of updates
+            "on-click": "update-waybar 8",
+            "signal": 8,
+            "max-length": 15,
+            "min-length": 5
+        },
+        "custom/weather": {
+            "format": "{}",
+            "format-alt": "{alt}: {}",
+            "format-alt-click": "click-right",
+            "interval": 3600,
+            "exec": "curl -s 'https://wttr.in/?format=1'",
+            "exec-if": "ping wttr.in -c1"
+        },
+        "cpu": {
+            "interval": 1,
+            //"format": " {}%", // Icon: microchip
+            "format": "<big> </big> {max_frequency}GHz <span color=\"darkgray\">| {usage}%</span>",
+            "min-length": 13
+        },
+        "custom/gpu": {
+            "exec": "print-gpu-stats",
+            "format": "{}",
+            "return-type": "",
+            "interval": 1
+        },
+        "wireplumber": {
+            "on-click": "pavucontrol",
+            "on-click-right": "amixer sset Master toggle 1>/dev/null",
+            "format": "<span foreground='#fab387'>{icon}</span>  {volume}%",
+            "format-muted": " ",
+            "format-source": "",
+            "format-source-muted": "",
+            "format-icons": {
+                "headphone": " ",
+                "hands-free": " ",
+                "headset": " ",
+                "phone": " ",
+                "portable": " ",
+                "car": " ",
+                "default": [" ", " ", " "]
+            }
+        },
+        "tray": {
+            "icon-size": 16,
+            "spacing": 3
+        },
+       "custom/notifications":{
+          "tooltip":false,
+          "format":"{icon}  {}",
+          "format-icons":{
+             "notification":"<span foreground='red'><sup></sup></span>",
+             "none":"",
+             "dnd-notification":"<span foreground='red'><sup></sup></span>",
+             "dnd-none":"",
+             "inhibited-notification":"<span foreground='red'><sup></sup></span>",
+             "inhibited-none":"",
+             "dnd-inhibited-notification":"<span foreground='red'><sup></sup></span>",
+             "dnd-inhibited-none":""
+          },
+          "return-type":"json",
+          "exec-if":"which swaync-client",
+          "exec":"swaync-client -swb",
+          "on-click":"swaync-client -d -sw",
+          "escape":true
+       }
+    }
+]

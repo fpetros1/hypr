@@ -1,0 +1,7 @@
+#!/bin/bash
+
+export DXVK_HDR=1
+export ENABLE_HDR_WSI=1 
+export GAMESCOPE_HDR="--hdr-enabled --hdr-debug-force-output --hdr-sdr-content-nits 450"
+
+"$@"

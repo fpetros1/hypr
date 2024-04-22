@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ "$1" == "gui" ]; then
+    neovide "$hypr"
+    exit 0
+fi
+
+nvim -c "e $hypr"

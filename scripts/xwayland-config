@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Wait for XWayland to Start
+XWAYLAND_PID=$(ps aux | grep Xwayland | grep -v grep)
+
+while [ -z "${XWAYLAND_PID}" ]; do
+	echo "XWayland not found, sleeping for 5 seconds"
+	sleep 5
+	XWAYLAND_PID=$(ps aux | grep Xwayland | grep -v grep)
+done
+
+# Allow xhost for all local users
+xhost + local:
+
+# Set XWayland Primary Monitor
+xrandr --output "$(xrandr | awk '/3440x1440/ {print $1}' | head -n 1)" --primary

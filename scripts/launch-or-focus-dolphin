@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [[ -z $(pgrep dolphin) ]]; then
+    dolphin 
+    exit
+fi
+
+source $(which set-hyprland-socket)
+
+if [ $(hyprctl activewindow -j | jq -r '.class') = "org.kde.dolphin" ]; then
+    exit
+fi
+
+exec hyprctl dispatch togglespecialworkspace dolphin

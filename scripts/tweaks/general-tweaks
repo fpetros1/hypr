@@ -1,0 +1,9 @@
+#!/bin/bash
+
+export DXVK_ASYNC=1
+export PROTON_ASYNC=1
+export DISABLE_LAYER_AMD_SWITCHABLE_GRAPHICS_1=1
+export VKD3D_CONFIG=dxr
+export PROTON_USE_WINESYNC=0
+export MANGOHUD_CONFIGFILE="$hypr/mangohud/MangoHud.conf"
+

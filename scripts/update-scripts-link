@@ -1,0 +1,33 @@
+#!/bin/bash
+
+INITIAL_SCRIPTS_DIR="$hypr/scripts"
+TARGET_DIR="/usr/bin"
+
+create_links_for_folder() {	
+	local SCRIPTS_DIR="$1"
+	local SCRIPTS=$(find $SCRIPTS_DIR -maxdepth 1 | tail -n +2 | xargs)
+	
+	IFS=" " read -ra SCRIPT <<< "$SCRIPTS"
+	for script in "${SCRIPT[@]}"; do
+		if [[ -d "$script" ]]; then	
+			create_links_for_folder "$script"
+			continue
+		fi
+		if [[ -x "$script" ]]; then
+			create_link "$script"
+		fi
+	done
+}
+
+create_link() {
+	local script="$1"
+	SCRIPT_NAME=$(echo ${script##*/})
+	SCRIPT_NAME_NO_EXT=$(echo $SCRIPT_NAME | cut -d'.' -f1)
+	LINK_TARGET="$TARGET_DIR/$SCRIPT_NAME_NO_EXT"
+	echo "Removing current link: $LINK_TARGET"
+	sudo rm "$LINK_TARGET" 2> /dev/null
+	echo "Creating new link for: $script"
+	sudo ln -s "$script" "$LINK_TARGET"
+}
+
+create_links_for_folder "$INITIAL_SCRIPTS_DIR"

@@ -1,0 +1,18 @@
+#!/bin/bash
+
+entries="  Lock\n⇠   Logout\n⏾ Suspend\n󰑓 Reboot\n⏻ Shutdown"
+
+selected=$(echo -e $entries| tofi --width="280" --height="215" --prompt-text="Action:" -c $hypr/tofi/config | awk '{print tolower($2)}')
+
+case $selected in
+  lock)
+	  lock-system;;
+  logout)
+    hyprctl dispatch exit;;
+  suspend)
+    exec systemctl suspend;;
+  reboot)
+    exec systemctl reboot;;
+  shutdown)
+    exec systemctl poweroff -i;;
+esac

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+paru -Syu
+
+update-waybar 8
+update-waybar 9
+

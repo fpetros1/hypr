@@ -1,0 +1,20 @@
+#!/bin/bash
+
+UPDATES=$(checkupdates --nocolor)
+COUNT_UPDATES=$(echo -ne "$UPDATES" | wc -l)
+
+OLDIFS="$IFS"
+IFS=$(echo -en "\n\b")
+UPDATE_STRING=""
+
+for update in ${UPDATES[@]}; do
+    if [ -z $UPDATE_STRING ]; then
+        UPDATE_STRING="$update"
+    else
+        UPDATE_STRING="$UPDATE_STRING\n$update"
+    fi
+done
+
+IFS="$OLDIFS"
+
+echo "{ \"text\": \"$COUNT_UPDATES\", \"tooltip\": \"$UPDATE_STRING\"}"

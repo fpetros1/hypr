@@ -1,0 +1,5 @@
+#!/bin/bash
+
+export MANGOHUD_CONFIGFILE="$hypr/mangohud/FPSOnly.conf"
+
+"$@"

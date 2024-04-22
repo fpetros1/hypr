@@ -1,0 +1,3 @@
+#!/bin/bash
+
+export HYPRLAND_INSTANCE_SIGNATURE=$(command ls /tmp/hypr | grep ".lock" | cut -d '.' -f 1)

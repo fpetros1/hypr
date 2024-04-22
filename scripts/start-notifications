@@ -1,0 +1,16 @@
+#!/bin/bash
+
+trap "killall -q swaync; exit" SIGINT
+
+CONFIG="$hypr/swaync/config.json"
+STYLE="$hypr/swaync/style.css"
+
+CONFIG_FILES="$CONFIG $STYLE"
+
+swaync -c ${CONFIG} -s ${STYLE} &
+
+while true; do
+	inotifywait -e create,modify $CONFIG_FILES
+	swaync-client -R
+	swaync-client -rs
+done

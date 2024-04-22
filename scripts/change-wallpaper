@@ -1,0 +1,55 @@
+#!/bin/bash
+
+source $(which set-hyprland-socket)
+
+add_wallpaper_from_folder() {
+    SAVEIFS="$IFS"
+    IFS=$(echo -en "\n\b")
+    FILES=$(ls "$1")
+    for f in ${FILES[@]}; do
+        if [ -d "$1/$f" ]; then
+            add_wallpaper_from_folder "$1/$f"
+        else
+            add_wallpaper "$1/$f"
+        fi
+    done
+    IFS="$SAVEIFS"
+}
+
+add_wallpaper() {
+    if [ -f "$1" ]; then
+        EXTENSION=$(echo $(basename "$1") | cut -d '.' -f 2)
+        if [ $EXTENSION == "png" ] || [ $EXTENSION == "jpg" ]; then
+            if [ -z "$WALLPAPERS" ]; then
+                WALLPAPER_LIST=$1
+            else
+                WALLPAPER_LIST="$WALLPAPER_LIST\n$1"
+            fi
+        fi
+    fi
+}
+
+WALLPAPER_FOLDERS="$HOME/.local/share/wallpapers:/usr/share/wallpapers"
+WALLPAPER_LIST=""
+
+OLDIFS="$IFS"
+IFS=":" read -ra WALLPAPERS <<< "$WALLPAPER_FOLDERS"
+for wallpaper in "${WALLPAPERS[@]}"; do
+    add_wallpaper_from_folder "$wallpaper"
+done
+IFS="$OLDIFS"
+
+WALLPAPER_OPTS=$(echo -e "$WALLPAPER_LIST" | map basename)
+
+SELECTED_FILE=$(echo "$WALLPAPER_OPTS" | tofi --prompt-text="Choose Wallpaper:" -c $hypr/tofi/config)
+SELECTED=$(echo -e $WALLPAPER_LIST | grep "$SELECTED_FILE")
+
+MONITORS=$(hyprctl monitors -j | jq '[.[]]|sort_by(.name)' | jq -r '.[].name')
+OUTPUT="splash = false\n\npreload = $SELECTED\n"
+
+for monitor in $MONITORS; do
+   OUTPUT="$OUTPUT\nwallpaper = $monitor,$SELECTED" 
+done
+
+echo -e $OUTPUT > $hypr/hyprpaper.conf
+

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+CMD="$1"
+
+while read arg
+do
+	echo $("$CMD" "$arg")
+done < /dev/stdin
