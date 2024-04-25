@@ -12,6 +12,7 @@ while true; do
     waybar --log-level error --config ${CONFIG} --style ${STYLE} &
     sleep 10 
     update-waybar 8 
+    sleep 5
     update-waybar 9
     inotifywait -e create,modify $CONFIG_FILES
     killall waybar

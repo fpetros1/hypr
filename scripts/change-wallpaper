@@ -27,6 +27,17 @@ add_wallpaper_folder() {
     WALLPAPER_FOLDERS=$([ -z "$WALLPAPER_FOLDERS" ] && echo "$1" || echo "$WALLPAPER_FOLDERS:$1")
 }
 
+remove_wallpaper_folder() {
+    if [ ! -z "$WALLPAPER_FOLDERS" ]; then
+        FOLDER_NAME=$(echo "$1" | cut -d '!' -f2-)
+        WALLPAPER_FOLDERS=$(echo "$WALLPAPER_FOLDERS" | sed "s|$FOLDER_NAME||" | sed "s|::|:|")
+
+        if [ $(echo "$WALLPAPER_FOLDERS" | cut -c1) == ":" ]; then
+            WALLPAPER_FOLDERS=$(echo "$WALLPAPER_FOLDERS" | cut -d ':' -f2-)
+        fi
+    fi
+}
+
 add_wallpaper_folder "$HOME/.local/share/wallpapers"
 add_wallpaper_folder "/usr/share/wallpapers"
 
@@ -34,11 +45,22 @@ for extraInArguments in "$@"; do
     add_wallpaper_folder "$extraInArguments"
 done
 
-EXTRA_FROM_FILE=$(cat "$hypr/extra_wallpaper_folders.txt")
+while read extraInFile; do
+    extraInFile=$(echo "$extraInFile" | envsubst)
+    trimmed=$(echo "$extraInFile" | xargs)
+    firstChar=$(echo "$trimmed" | cut -c1)
 
-for extraInFile in "$EXTRA_FROM_FILE"; do
+    if [ "$firstChar" == "#" ]; then
+        continue
+    fi
+
+    if [ "$firstChar" == "!" ]; then
+        remove_wallpaper_folder "$extraInFile"
+        continue
+    fi
+
     add_wallpaper_folder "$extraInFile"
-done
+done < "$hypr/wallpaper_folders.config.txt"
 
 WALLPAPER_LIST=""
 
@@ -50,7 +72,7 @@ done
 IFS="$OLDIFS"
 
 WALLPAPER_OPTS=$(echo -e "$WALLPAPER_LIST" | map basename)
-SELECTED_FILE=$(echo "$WALLPAPER_OPTS" | tofi --prompt-text="Choose Wallpaper:" -c $hypr/tofi/config)
+SELECTED_FILE=$(echo "$WALLPAPER_OPTS" | tofi --width 600 --height 500 --prompt-text="Choose Wallpaper:" -c $hypr/tofi/config)
 
 if [ ! -z "$SELECTED_FILE" ]; then
     SELECTED=$(echo -e $WALLPAPER_LIST | grep "$SELECTED_FILE")

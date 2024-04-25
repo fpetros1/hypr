@@ -11,7 +11,6 @@ GAMEMODE_COMMAND="gamemoderun"
 source $(which general-tweaks)
 
 env\
-    --unset=SDL_VIDEODRIVER\
 	$GAMESCOPE_COMMAND\
 	$GAMEMODE_COMMAND\
 	$MANGOHUD_COMMAND\

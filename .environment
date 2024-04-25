@@ -1,0 +1,15 @@
+#!/bin/bash
+
+alias ls="eza --icons=always --no-quotes -l"
+alias lsa="eza --icons=always --no-quotes -l -a"
+alias ld="eza --icons=always --no-quotes -l -D"
+alias lda="eza --icons=always --no-quotes -l -D -a"
+alias lff="eza --icons=always --no-quotes -l -f"
+alias lfa="eza --icons=always --no-quotes -l -f -a"
+alias checkupdates="checkupdates; update-waybar 8; update-waybar 9"
+
+# Replace some more things with better alternatives
+alias sudo='sudo -E '
+alias vim='nvim'
+alias cat='bat'
+alias cls='command clear'

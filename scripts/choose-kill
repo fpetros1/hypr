@@ -4,6 +4,6 @@ TARGET=$(ps ax -o pid,cmd | tofi --prompt-text="Kill:" --width="60%" --height="5
 
 if [ ! -z "$TARGET" ]; then
     PID=$(echo "$TARGET" | cut -d ' ' -f 2)
-    kill $PID
+    kill -9 $PID
 fi
 

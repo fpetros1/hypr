@@ -1,8 +1,11 @@
 #!/bin/bash
 
 if [ "$1" == "gui" ]; then
-    neovide "$hypr"
+    VISUAL=$([ ! -z "$VISUAL" ] && echo "$VISUAL" || echo "neovide")
+    "$VISUAL" "$hypr"
     exit 0
 fi
 
-nvim -c "e $hypr"
+EDITOR=$([ ! -z "$EDITOR" ] && echo "$EDITOR" || echo "nvim")
+
+"$EDITOR" -c "e $hypr"

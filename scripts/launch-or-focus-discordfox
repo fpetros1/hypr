@@ -6,7 +6,7 @@ FFPWA_ID=$(get-firefoxpwa-id "$DISCORD_WEBFOX_APP_NAME")
 
 toggle_workspace_discord() {
     CURRENT_WS=$(hyprctl activeworkspace -j | jq -r '.name')
-    if [ ! CURRENT_WS == "special:discord" ]; then
+    if [ ! $CURRENT_WS == "special:discord" ]; then
         hyprctl dispatch togglespecialworkspace discord
     fi
 }

@@ -113,7 +113,7 @@
             }
         },
         "tray": {
-            "icon-size": 18,
+            "icon-size": 20,
             "spacing": 5
         },
        "custom/notifications":{
@@ -251,7 +251,7 @@
             }
         },
         "tray": {
-            "icon-size": 16,
+            "icon-size": 18,
             "spacing": 3
         },
        "custom/notifications":{

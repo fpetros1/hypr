@@ -1,0 +1,15 @@
+#!/bin/bash
+
+ARG_STRING=""
+
+while read arg
+do
+	if [[ ! -z $arg ]]; then
+		#ESCAPED_ARG=$(echo "${arg/\"/\\\"}")
+		#ESCAPED_ARG=$(echo "${ESCAPED_ARG/\ /\\\ }")
+		ARG_STRING+=$(echo "\"$arg\" ")
+	fi
+done < /dev/stdin
+
+echo "${ARG_STRING%%*( )}"
+

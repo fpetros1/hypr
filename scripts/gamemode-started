@@ -4,9 +4,10 @@ source $(which set-hyprland-socket)
 
 BASE_CMD=""
 CURRENT_WINDOW=$(hyprctl activewindow -j | jq -r '.class')
+STEAM_CHAT_CLASS=$(get-firefoxpwa-id "Steam Chat")
 
-if [ $CURRENT_WINDOW = "steam" ]; then
-    BASE_CMD="dispatch togglespecialworkspace steami ; "
+if [ $CURRENT_WINDOW == "steam" ] || [ $CURRENT_WINDOW == "$STEAM_CHAT_CLASS" ]; then
+    BASE_CMD="dispatch togglespecialworkspace steam ; "
 fi
 
 hyprctl --batch "$BASE_CMD""dispatch workspace 10"

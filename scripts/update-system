@@ -2,6 +2,7 @@
 
 paru -Syu
 
-update-waybar 8
+update-waybar 8 
+sleep 3
 update-waybar 9
 

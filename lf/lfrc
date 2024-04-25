@@ -1,0 +1,166 @@
+# ----- Configuration -----
+set icons
+set shell zsh
+set shellopts '-eu'
+set ifs "\n"
+set scrolloff 10
+set previewer ~/.config/lf/lf_kitty_preview
+set cleaner ~/.config/lf/lf_kitty_clean
+
+# ----- Functions -----
+cmd gohome ${{
+	set -f
+	lf -remote "send $id cd '$HOME'"
+}}
+
+cmd gomedia ${{
+	set -f
+	lf -remote "send $id cd '/run/media/$USER'"
+}}
+
+cmd dragdrop ${{
+	set -f
+	FILES=$(echo "$fx" | xargs-escaped)
+	$SHELL -c "dragon-drop --all --and-exit $FILES"
+}}
+
+cmd pasteclip %{{
+	set -f
+	FILETYPE=$(wl-paste --list-types)
+	echo " Paste the file from clipboard($FILETYPE): " && read TARGET
+	wl-paste > "$TARGET"
+}}
+
+cmd cpclip ${{
+	set -f
+	if [[ -z "$fs" ]]; then
+		wl-copy < "$f"
+	fi
+}}
+
+cmd mkfile %{{
+	set -f
+	echo " Create a new file (Folders ends with '/'): " && read TARGET
+	CREATED=$(mkfile $TARGET -p)
+	echo ""
+	if [[ ! "$CREATED" == "." ]]; then
+		echo " Directory created, do you wish to move to it? [y/n] " && read MOVE
+		if [[ "$MOVE" == "y" ]]; then
+			lf -remote "send $id cd '$CREATED'"
+		fi
+	fi
+}}
+
+cmd delete ${{
+	set -f
+	FILES=$(echo "$fx" | xargs-escaped)
+	echo $FILES
+	$SHELL -c "rm -rf $FILES"
+}}
+
+cmd extract ${{
+    set -f
+	SELECTION=$(lf -command 'set dironly' -last-dir-path /dev/stdout)
+	
+	echo "$SELECTION"
+
+	if [[ ! -d "$SELECTION" ]]; then
+		SELECTION=$(dirname "$SELECTION")
+	fi
+
+	echo "$SELECTION"
+
+	DIR_NAME=$(basename "$f" | cut -d'.' -f1)
+	FULL_PATH="${SELECTION}/${DIR_NAME}"
+
+    case $f in
+        *.tar.bz|*.tar.bz2|*.tbz|*.tbz2) tar -xjvf "$f" -C "$FULL_PATH";;
+        *.tar.gz|*.tgz) tar -xzvf "$f" -C "$FULL_PATH";;
+        *.tar.xz|*.txz) tar -xJvf "$f" -C "$FULL_PATH";;
+        *.zip) unzip "$f" -d "$FULL_PATH";;
+        *.rar) unrar x "$f" "$FULL_PATH";;
+        *.7z) 7z x "$f" -o"${FULL_PATH}";;
+    esac
+
+	lf -remote "send $id complete-extraction '$SELECTION'"
+}}
+
+cmd complete-extraction %{{
+	TARGET="$1"
+	echo " Extracted to: '$TARGET'. Go to directory? [y/n] " && read ANSWER
+
+	if [[ "$ANSWER" == "y" ]]; then
+		lf -remote "send $id cd '$TARGET'"
+		echo ""
+	fi
+}}
+
+cmd tar ${{
+    set -f
+	if [ -z "$fs" ]; then
+        tar czf "$f.tar.gz" "$f" 
+    else
+        FILES=$(echo $fs | xargs-map basename)
+		ARCHIVE=$(echo "$FILES" | awk '{print $1;}').tar.gz
+		$SHELL -c "tar czf $ARCHIVE $FILES"
+    fi
+}}
+
+cmd test ${{
+	set -f
+	echo $SELECTION
+}}
+
+cmd zip ${{
+    set -f
+	if [ -z "$fs" ]; then
+        zip -r "$f.zip" $(basename $f)
+    else
+        FILES=$(echo $fs | xargs-map basename)
+		ARCHIVE=$(echo "$FILES" | awk '{print $1;}').zip
+		$SHELL -c "zip -r $ARCHIVE $FILES"
+    fi
+}}
+
+cmd 7z ${{
+    set -f
+	if [ -z "$fs" ]; then
+        7z a "$f.7z" $(basename $f)
+    else
+        FILES=$(echo $fs | xargs-map basename)
+		ARCHIVE=$(echo "$FILES" | awk '{print $1;}').zip
+		$SHELL -c "7z a $ARCHIVE $FILES"
+    fi
+}}
+
+cmd default-application ${{
+	set -f
+	if [ -z "$fs" ]; then
+		FILETYPE=$(xdg-mime query filetype "$f")
+		APP=$({command ls /usr/share/applications/ & command ls $HOME/.local/share/applications} | sort -u | fzf)
+		xdg-mime default "$APP" "$FILETYPE"
+	fi
+}}
+
+# ----- Mappings -----
+
+# General
+map o open
+map <enter> shell
+map a mkfile
+map DD delete
+
+# Archives
+map xe extract
+map xt tar
+map xz zip
+map x7 7z
+
+# Commands
+map gh gohome
+map gm gomedia
+map gp pasteclip
+map gc cpclip
+map gdd dragdrop
+map gda default-application
+

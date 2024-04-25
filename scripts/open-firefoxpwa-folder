@@ -1,0 +1,14 @@
+#!/bin/bash
+
+PWA_SITE=$(get-firefoxpwa-id "$1" | cut -d '-' -f2-)
+TARGET=".local/share/firefoxpwa/profiles/$(jq -r --arg PWA_SITE "$PWA_SITE" '.profiles | to_entries[] | select(.value.sites[0] == $PWA_SITE) | .key' "$HOME/.local/share/firefoxpwa/config.json")"
+
+if [ "$2" == "gui" ]; then
+    VISUAL=$([ ! -z "$VISUAL" ] && echo "$VISUAL" || echo "neovide")
+    "$VISUAL" "$TARGET"
+    exit 0
+fi
+
+EDITOR=$([ ! -z "$EDITOR" ] && echo "$EDITOR" || echo "nvim")
+
+"$EDITOR" "$TARGET"
