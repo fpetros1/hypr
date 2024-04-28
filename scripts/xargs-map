@@ -1,0 +1,15 @@
+#!/bin/bash
+
+CMD="$1"
+ARG_STRING=""
+
+while read arg
+do
+	if [[ ! "$CMD" == "$arg" ]]; then
+		ESCAPED_ARG=$(echo "${arg/\"/\\\"}")
+		ARG_STRING+=$(echo \"$("$CMD" "$ESCAPED_ARG")\"\ )
+	fi
+done < /dev/stdin
+
+echo "${ARG_STRING%%*( )}"
+

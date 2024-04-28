@@ -60,26 +60,21 @@ cmd delete ${{
 
 cmd extract ${{
     set -f
-	SELECTION=$(lf -command 'set dironly' -last-dir-path /dev/stdout)
-	
-	echo "$SELECTION"
+	SELECTION=$(lf -command 'set dironly' -last-dir-path /dev/stdout)	
+	FULL_PATH="${SELECTION}"
 
-	if [[ ! -d "$SELECTION" ]]; then
-		SELECTION=$(dirname "$SELECTION")
-	fi
+    echo "$FULL_PATH"
 
-	echo "$SELECTION"
+    TYPE=$(file "$f" | cut -d ':' -f2- | cut -d ',' -f1 | xargs)
 
-	DIR_NAME=$(basename "$f" | cut -d'.' -f1)
-	FULL_PATH="${SELECTION}/${DIR_NAME}"
+    echo $TYPE
 
-    case $f in
-        *.tar.bz|*.tar.bz2|*.tbz|*.tbz2) tar -xjvf "$f" -C "$FULL_PATH";;
-        *.tar.gz|*.tgz) tar -xzvf "$f" -C "$FULL_PATH";;
-        *.tar.xz|*.txz) tar -xJvf "$f" -C "$FULL_PATH";;
-        *.zip) unzip "$f" -d "$FULL_PATH";;
-        *.rar) unrar x "$f" "$FULL_PATH";;
-        *.7z) 7z x "$f" -o"${FULL_PATH}";;
+    case $TYPE in
+        bzip2*) tar -xjvf "$f" -C "$FULL_PATH";;
+        gzip*) tar -xzvf "$f" -C "$FULL_PATH";;
+        Zip*) unzip "$f" -d "$FULL_PATH";;
+        RAR*) unrar x "$f" "$FULL_PATH";;
+        7-zip*) 7z x "$f" -o"${FULL_PATH}";;
     esac
 
 	lf -remote "send $id complete-extraction '$SELECTION'"
@@ -98,11 +93,14 @@ cmd complete-extraction %{{
 cmd tar ${{
     set -f
 	if [ -z "$fs" ]; then
-        tar czf "$f.tar.gz" "$f" 
+        echo "$f"
+        tar -zcvf "$f.tar.gz" -C $(dirname "$f") $(basename "$f") 
     else
         FILES=$(echo $fs | xargs-map basename)
-		ARCHIVE=$(echo "$FILES" | awk '{print $1;}').tar.gz
-		$SHELL -c "tar czf $ARCHIVE $FILES"
+        FIRST=$(echo "$FILES" | awk '{print $1;}')
+        DIR=$(dirname "$FIRST")
+		ARCHIVE="${FIRST}.tar.gz"
+		$SHELL -c "tar -zcvf $ARCHIVE -C $DIR $FILES"
     fi
 }}
 

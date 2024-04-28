@@ -1,0 +1,20 @@
+#!/bin/bash
+
+systemctl --user start xdg-desktop-portal
+systemctl --user start xdg-desktop-portal-hyprland
+systemctl --user start xdg-desktop-portal-gtk
+
+udiskie &
+start-wallpaper &
+blueman-tray &
+nm-applet --indicator &
+/usr/lib/kdeconnectd &
+kdeconnect-indicator &
+/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+protonmail-bridge --no-window &
+#celeste --background &
+xwayland-config &
+start-statusbar &
+start-notifications &
+hypridle
+hyprpm reload -n

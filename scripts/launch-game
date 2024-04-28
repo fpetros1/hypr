@@ -1,15 +1,10 @@
 #!/bin/bash
 
-#trap "gamemode-ended > /home/fpetros/hypr.txt; exit" EXIT ERR
-
-#NICE_COMMAND="nice -n -20"
 GENERAL_TWEAKS="general-tweaks"
 MANGOHUD_COMMAND="mangohud"
 GAMEMODE_COMMAND="gamemoderun"
 
 source $(which $GENERAL_TWEAKS)
-
-#gamemode-started
 
 env\
 	$MANGOHUD_COMMAND\

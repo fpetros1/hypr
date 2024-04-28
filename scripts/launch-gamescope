@@ -6,12 +6,10 @@ CURSOR="$HOME/.icons/material_light_cursors/cursor.theme"
 GAMESCOPE_COMMAND="gamescope -f ${GAMESCOPE_HDR} -r 165 -w 3440 -h 1440 --force-grab-cursor --cursor ${CURSOR}"
 GAMEMODE_COMMAND="gamemoderun"
 
-#export ENABLE_GAMESCOPE_WSI=1
-
 source $(which general-tweaks)
 
 env\
+    $GAMEMODE_COMMAND\
 	$GAMESCOPE_COMMAND\
-	$GAMEMODE_COMMAND\
 	$MANGOHUD_COMMAND\
 	"$@"

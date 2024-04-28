@@ -6,10 +6,10 @@ if [ -z "$hypr" ]; then
 fi
 
 # Set automatic monitor config
-echo -n "source = ./monitors.auto.conf" > $hypr/hypr-modules/monitors.conf
+#echo -n "source = ./monitors.auto.conf" > $hypr/hypr-modules/monitors.conf
 
 # Load Environment config in bash/zsh
-SOURCE_COMMAND='source "$hypr/.environment"'
+#SOURCE_COMMAND='source "$hypr/.environment"'
 
 if [ -f "$HOME/.zshrc" ] && [[ -z $(cat "$HOME/.zshrc" | grep "$SOURCE_COMMAND") ]]; then
     echo -e "\n$SOURCE_COMMAND" | tee -a "$HOME/.zshrc"
@@ -34,6 +34,7 @@ add_config_folder() {
     CONFIGS=$([ -z "$CONFIGS" ] && echo "$1" || echo "$CONFIGS:$1")
 }
 
+add_config_folder "$HOME/.config/swaync"
 add_config_folder "$HOME/.config/nvim"
 add_config_folder "$HOME/.config/kitty"
 add_config_folder "$HOME/.config/xdg-desktop-portal"

@@ -7,7 +7,7 @@ STYLE="$hypr/swaync/style.css"
 
 CONFIG_FILES="$CONFIG $STYLE"
 
-swaync -c ${CONFIG} -s ${STYLE} &
+swaync &
 
 while true; do
 	inotifywait -e create,modify $CONFIG_FILES

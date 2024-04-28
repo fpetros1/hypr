@@ -1,0 +1,8 @@
+#!/bin/bash
+
+PID=$(pidof tofi)
+OPEN_LAUNCHER="tofi-drun --drun-launch=true --config $hypr/tofi/config"
+
+
+[[ ! -z $PID ]] && kill -9 "$PID" || $OPEN_LAUNCHER
+

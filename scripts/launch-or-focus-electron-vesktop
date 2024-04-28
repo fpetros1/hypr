@@ -1,0 +1,11 @@
+#!/bin/bash
+
+VESKTOP_PROCESSES=$(ps aux | grep "vesktop/app.asar" |  wc -l)
+
+if [ ! $VESKTOP_PROCESSES -gt 1 ]; then
+    vesktop &
+    exit
+fi
+
+source $(which set-hyprland-socket)
+exec hyprctl dispatch togglespecialworkspace vesktop
