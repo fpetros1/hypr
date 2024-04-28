@@ -34,6 +34,7 @@ add_config_folder() {
     CONFIGS=$([ -z "$CONFIGS" ] && echo "$1" || echo "$CONFIGS:$1")
 }
 
+add_config_folder "$HOME/.config/wofi"
 add_config_folder "$HOME/.config/swaync"
 add_config_folder "$HOME/.config/nvim"
 add_config_folder "$HOME/.config/kitty"

@@ -1,8 +1,7 @@
 #!/bin/bash
 
-PID=$(pidof tofi)
-OPEN_LAUNCHER="tofi-drun --drun-launch=true --config $hypr/tofi/config"
+PIDS=$(find-pid-bytitleclass "wofi" "Run:" | xargs)
+OPEN_LAUNCHER="wofi --show drun"
 
-
-[[ ! -z $PID ]] && kill -9 "$PID" || $OPEN_LAUNCHER
+[[ ! -z $PIDS ]] && kill -9 $PIDS || $OPEN_LAUNCHER
 

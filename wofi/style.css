@@ -1,0 +1,60 @@
+* {
+    font-family: 'JetBrains Nerd Font';
+    color: #DCD7BA;
+    font-size: 20px;
+    font-weight: 400;
+    text-decoration-color: red;
+}
+
+
+#window {
+    margin: 0px;
+    border: none;
+    border-color: rgb(129, 126, 127);
+    border-radius: 10px;
+    background-color: #1F1F28;
+}
+
+#input {
+    margin: 25px;
+    background-color: #363646;
+    border-radius: 10px;
+    padding: 5px 15px;
+    border: none;
+}
+
+#input > selection {
+    background-color: #2D4F67;
+}
+
+#scroll {
+    margin-bottom: 25px;
+}
+
+#entry {
+    margin: 0px 25px;
+}
+
+#entry:selected {
+    background-color: #223249;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+}
+
+#entry:selected label {
+    background-color: unset;
+}
+
+.drun-icon {
+    background-color: unset;
+}
+
+#entry > box {
+    margin-left: 15px;
+}
+
+#entry image {
+    padding-right: 10px;
+}
+

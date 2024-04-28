@@ -1,0 +1,5 @@
+#!/bin/bash
+
+source $(which set-hyprland-socket)
+
+hyprctl clients -j | jq -r --arg CLASS "$1" --arg TITLE "$2" '.[] | select(.class == $CLASS and .title == $TITLE) | .pid'

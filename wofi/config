@@ -1,0 +1,9 @@
+allow_images=true
+matching=fuzzy
+parse_search=true
+hide_scroll=true
+normal_window=true
+width=25%
+height=35%
+prompt=Run:
+insensitive=true

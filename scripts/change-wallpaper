@@ -2,6 +2,11 @@
 
 source $(which set-hyprland-socket)
 
+PROMPT="Choose Wallpaper:"
+PIDS=$(find-pid-bytitleclass "wofi" "$PROMPT" | xargs)
+
+[[ ! -z $PIDS ]] && kill -9 $PIDS && exit
+
 add_wallpaper_from_folder() {
     SAVEIFS="$IFS"
     IFS=$(echo -en "\n\b")
@@ -71,8 +76,8 @@ for wallpaper in "${WALLPAPERS[@]}"; do
 done
 IFS="$OLDIFS"
 
-WALLPAPER_OPTS=$(echo -e "$WALLPAPER_LIST" | map basename)
-SELECTED_FILE=$(echo "$WALLPAPER_OPTS" | tofi --width 600 --height 500 --prompt-text="Choose Wallpaper:" -c $hypr/tofi/config)
+WALLPAPER_OPTS=$(echo -e "$WALLPAPER_LIST" | grep -v "^$" | map basename)
+SELECTED_FILE=$(echo "$WALLPAPER_OPTS" | wofi --dmenu -i --width 600 --height 500 --prompt "$PROMPT")
 
 if [ ! -z "$SELECTED_FILE" ]; then
     SELECTED=$(echo -e $WALLPAPER_LIST | grep "$SELECTED_FILE")

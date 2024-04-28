@@ -1,8 +1,13 @@
 #!/bin/bash
 
-entries="  Lock\n⇠   Logout\n⏾ Suspend\n󰑓 Reboot\n⏻ Shutdown"
+PROMPT="Action:"
+PIDS=$(find-pid-bytitleclass "wofi" "$PROMPT" | xargs)
 
-selected=$(echo -e $entries| tofi --width="280" --height="215" --prompt-text="Action:" -c $hypr/tofi/config | awk '{print tolower($2)}')
+[[ ! -z $PIDS ]] && kill -9 $PIDS && exit
+
+entries="Lock\nLogout\nSuspend\nReboot\nShutdown"
+
+selected=$(echo -e $entries | wofi --dmenu -i --width="350px" --height="290px" --prompt "$PROMPT" | awk '{print tolower($2)}')
 
 case $selected in
   lock)
