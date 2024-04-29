@@ -1,11 +1,11 @@
 #!/bin/bash
 
 PROMPT="Kill:"
-PIDS=$(find-pid-bytitleclass "wofi" "$PROMPT" | xargs)
+PIDS=$(pidof rofi)
 
 [[ ! -z $PIDS ]] && kill -9 $PIDS && exit
 
-TARGET=$(ps ax -o pid,cmd | tail -n +2 | wofi --dmenu -i --prompt "$PROMPT" --width="60%" --height="50%")
+TARGET=$(ps ax -o pid,cmd | tail -n +2 | rofi -dmenu -i -p "$PROMPT")
 
 if [ ! -z "$TARGET" ]; then
     PID=$(echo "$TARGET" | cut -d ' ' -f 2)

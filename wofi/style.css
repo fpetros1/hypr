@@ -1,11 +1,20 @@
 * {
     font-family: 'JetBrains Nerd Font';
     color: #DCD7BA;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 400;
     text-decoration-color: red;
 }
 
+#input > image.left {
+    display: none;
+    -gtk-icon-transform:scaleX(0);
+}
+
+#input > image.right {
+    display: none;
+    -gtk-icon-transform:scaleX(0);
+}
 
 #window {
     margin: 0px;
@@ -19,7 +28,7 @@
     margin: 25px;
     background-color: #363646;
     border-radius: 10px;
-    padding: 5px 15px;
+    padding: 5px 0px;
     border: none;
 }
 

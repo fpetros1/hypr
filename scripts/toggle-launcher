@@ -1,7 +1,7 @@
 #!/bin/bash
 
-PIDS=$(find-pid-bytitleclass "wofi" "Run:" | xargs)
-OPEN_LAUNCHER="wofi --show drun"
+PIDS=$(pidof rofi)
+OPEN_LAUNCHER="rofi -show drun"
 
 [[ ! -z $PIDS ]] && kill -9 $PIDS || $OPEN_LAUNCHER
 

@@ -16,5 +16,6 @@ protonmail-bridge --no-window &
 xwayland-config &
 start-statusbar &
 start-notifications &
-hypridle
-hyprpm reload -n
+hypridle &
+hyprpm reload -n &
+echo "$HYPRLAND_INSTANCE_SIGNATURE" > "$HYPR_SIG_FILE" &

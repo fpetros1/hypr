@@ -2,8 +2,8 @@
 
 source $(which set-hyprland-socket)
 
-PROMPT="Choose Wallpaper:"
-PIDS=$(find-pid-bytitleclass "wofi" "$PROMPT" | xargs)
+PROMPT="Wallpaper:"
+PIDS=$(pidof rofi)
 
 [[ ! -z $PIDS ]] && kill -9 $PIDS && exit
 
@@ -77,7 +77,7 @@ done
 IFS="$OLDIFS"
 
 WALLPAPER_OPTS=$(echo -e "$WALLPAPER_LIST" | grep -v "^$" | map basename)
-SELECTED_FILE=$(echo "$WALLPAPER_OPTS" | wofi --dmenu -i --width 600 --height 500 --prompt "$PROMPT")
+SELECTED_FILE=$(echo "$WALLPAPER_OPTS" | rofi -dmenu -i -p "$PROMPT")
 
 if [ ! -z "$SELECTED_FILE" ]; then
     SELECTED=$(echo -e $WALLPAPER_LIST | grep "$SELECTED_FILE")

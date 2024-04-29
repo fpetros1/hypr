@@ -1,13 +1,13 @@
 #!/bin/bash
 
 PROMPT="Action:"
-PIDS=$(find-pid-bytitleclass "wofi" "$PROMPT" | xargs)
+PIDS=$(pidof rofi)
 
 [[ ! -z $PIDS ]] && kill -9 $PIDS && exit
 
-entries="Lock\nLogout\nSuspend\nReboot\nShutdown"
+entries="󰌾 Lock\n⇠   Logout\n⏾ Suspend\n󰑓 Reboot\n⏻ Shutdown"
 
-selected=$(echo -e $entries | wofi --dmenu -i --width="350px" --height="290px" --prompt "$PROMPT" | awk '{print tolower($2)}')
+selected=$(echo -e $entries | rofi -dmenu -i -p "$PROMPT" | awk '{print tolower($2)}')
 
 case $selected in
   lock)

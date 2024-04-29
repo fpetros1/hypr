@@ -1,3 +1,9 @@
 #!/bin/bash
 
-export HYPRLAND_INSTANCE_SIGNATURE=$(command ls /tmp/hypr | grep ".lock" | cut -d '.' -f 1)
+#GAMEMODE ONLY HAS $HOME
+USER=$(echo "$HOME" | map basename)
+
+export HYPRLAND_INSTANCE_SIGNATURE=$(cat "$XDG_RUNTIME_DIR/hypr.$USER.sig")
+
+echo "$HYPRLAND_INSTANCE_SIGNATURE"
+

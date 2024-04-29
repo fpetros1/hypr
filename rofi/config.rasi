@@ -1,0 +1,11 @@
+configuration {
+    show-icons: true;
+    display-run: "Run:";
+    display-drun: "Open:";
+    matching: "fuzzy";
+    sort: true;
+    sorting-method: "fzf";
+    case-sensitive: false;
+}
+
+@theme "rounded-kanagawa"
