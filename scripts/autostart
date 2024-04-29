@@ -1,8 +1,17 @@
 #!/bin/bash
 
+killall -e -q xdg-desktop-portal-gtk
+killall -e -q xdg-desktop-portal-hyprland
+killall -e -q xdg-desktop-portal
+
+# Slow app launch fix
+systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+gsettings set org.gnome.desktop.interface cursor-theme 'material_light_cursors'
+
 systemctl --user start xdg-desktop-portal
-systemctl --user start xdg-desktop-portal-hyprland
-systemctl --user start xdg-desktop-portal-gtk
+systemctl --user start xdg-desktop-portal-hyprland &
+systemctl --user start xdg-desktop-portal-gtk &
 
 udiskie &
 start-wallpaper &
@@ -18,4 +27,4 @@ start-statusbar &
 start-notifications &
 hypridle &
 hyprpm reload -n &
-echo "$HYPRLAND_INSTANCE_SIGNATURE" > "$HYPR_SIG_FILE" &
+(echo "$HYPRLAND_INSTANCE_SIGNATURE" > "$HYPR_SIG_FILE") &
