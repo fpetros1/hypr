@@ -2,4 +2,6 @@
 
 export DISABLE_LAYER_AMD_SWITCHABLE_GRAPHICS_1=1
 export MANGOHUD_CONFIGFILE="$hypr/mangohud/MangoHud.conf"
+unset SDL_VIDEODRIVER
 
+xwayland-config

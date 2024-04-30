@@ -6,6 +6,12 @@ set ifs "\n"
 set scrolloff 10
 set previewer ~/.config/lf/lf_kitty_preview
 set cleaner ~/.config/lf/lf_kitty_clean
+#set rulerfmt "%a  |%p  |\033[7;31m %m \033[0m  |\033[7;33m %c \033[0m  |\033[7;35m %s \033[0m  |\033[7;34m %f \033[0m  |%i/%t"
+set selectfmt "48;2;118;148;106"
+set copyfmt "48;2;220;165;97"
+set cutfmt "48;2;195;64;67"
+set rulerfmt "F: %f | P: %a | S: %s | C: %c | D: %m | %i/%t"
+
 
 # ----- Functions -----
 cmd gohome ${{

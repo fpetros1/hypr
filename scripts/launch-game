@@ -6,7 +6,7 @@ GAMEMODE_COMMAND="gamemoderun"
 
 source $(which $GENERAL_TWEAKS)
 
-env\
-	$MANGOHUD_COMMAND\
+exec\
+    $MANGOHUD_COMMAND\
 	$GAMEMODE_COMMAND\
 	"$@"
