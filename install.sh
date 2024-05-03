@@ -2,7 +2,7 @@
 
 # Set $hypr if empty
 if [ -z "$hypr" ]; then
-    export hypr="$HOME/.config/hypr"
+    export hypr="$XDG_CONFIG_HOME/hypr"
 fi
 
 # Set automatic monitor config
@@ -34,13 +34,14 @@ add_config_folder() {
     CONFIGS=$([ -z "$CONFIGS" ] && echo "$1" || echo "$CONFIGS:$1")
 }
 
-add_config_folder "$HOME/.config/rofi"
-add_config_folder "$HOME/.config/wofi"
-add_config_folder "$HOME/.config/swaync"
-add_config_folder "$HOME/.config/nvim"
-add_config_folder "$HOME/.config/kitty"
-add_config_folder "$HOME/.config/xdg-desktop-portal"
-add_config_folder "$HOME/.config/lf"
+add_config_folder "$XDG_CONFIG_HOME/waybar"
+add_config_folder "$XDG_CONFIG_HOME/rofi"
+add_config_folder "$XDG_CONFIG_HOME/wofi"
+add_config_folder "$XDG_CONFIG_HOME/swaync"
+add_config_folder "$XDG_CONFIG_HOME/nvim"
+add_config_folder "$XDG_CONFIG_HOME/kitty"
+add_config_folder "$XDG_CONFIG_HOME/xdg-desktop-portal"
+add_config_folder "$XDG_CONFIG_HOME/lf"
 
 OLDIFS="$IFS"
 IFS=":"
