@@ -60,10 +60,14 @@ window#waybar.hidden {
 }
 #workspaces button.active {
   color: #fff;
+  text-decoration-line: underline;
+}
+#workspaces button.active label {
+  text-decoration-line: underline;
 }
 
 #workspaces button.urgent {
-  background-color: #eb4d4b;
+  color: #eb4d4b;
 }
 
 #window {
@@ -87,6 +91,7 @@ window#waybar.hidden {
 #custom-media,
 #custom-gpu,
 #custom-notifications,
+#custom-battery,
 #custom-screenshot_t,
 #tray,
 #mode,

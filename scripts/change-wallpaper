@@ -1,5 +1,7 @@
 #!/bin/bash
 
+trap "hyprctl hyprpaper unload all" SIGINT ERR EXIT
+
 source $(which set-hyprland-socket)
 
 PROMPT="Wallpaper:"
@@ -52,7 +54,7 @@ done
 
 while read extraInFile; do
     extraInFile=$(echo "$extraInFile" | envsubst)
-    trimmed=$(echo "$extraInFile" | xargs)
+    trimmed=$(echo "$extraInFile" | xargs -0)
     firstChar=$(echo "$trimmed" | cut -c1)
 
     if [ "$firstChar" == "#" ]; then
@@ -77,19 +79,23 @@ done
 IFS="$OLDIFS"
 
 WALLPAPER_OPTS=$(echo -e "$WALLPAPER_LIST" | grep -v "^$" | map basename)
-SELECTED_FILE=$(echo "$WALLPAPER_OPTS" | rofi -dmenu -i -p "$PROMPT")
+SELECTED_FILE=$(echo "$WALLPAPER_OPTS" | rofi -application-fallback-icon "application-x-addon" -dmenu  -i -p "$PROMPT")
 
-if [ ! -z "$SELECTED_FILE" ]; then
+if [ ! -z "$SELECTED_FILE" ]; then    
     SELECTED=$(echo -e $WALLPAPER_LIST | grep "$SELECTED_FILE")
+    hyprctl hyprpaper preload "$SELECTED"
 
     MONITORS=$(hyprctl monitors -j | jq '[.[]]|sort_by(.name)' | jq -r '.[].name')
     OUTPUT="splash = false\n\npreload = $SELECTED\n"
 
     for monitor in $MONITORS; do
        OUTPUT="$OUTPUT\nwallpaper = $monitor,$SELECTED" 
+       hyprctl hyprpaper wallpaper "$monitor,$SELECTED"
     done
 
-    echo -e $OUTPUT > $hypr/hyprpaper.conf
+    echo -e $OUTPUT > $hypr/hyprpaper.conf 
+
+    sed "s|path\ \=\ .*|path\ \=\ $SELECTED|g" "$hypr/hyprlock.example.conf" > "$hypr/hyprlock.conf"
 fi
 
 

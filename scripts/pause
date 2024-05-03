@@ -1,0 +1,2 @@
+#!/bin/bash
+echo -e "\nPress \x1b[1;32m[Enter]\x1b[0m to continue..." && read

@@ -27,11 +27,7 @@
     "scripts": {
         "sound": {
             "exec": "play-notification-sound",
-            "app-name": "^(?!Firefox).*$"
-        },
-        "steam-sound": {
-            "exec": "play-steam-notification-sound",
-            "app-name": "^(Firefox)$"
+            "app-name": "."
         }
     },
     "widgets": [

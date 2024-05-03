@@ -1,0 +1,36 @@
+#!/bin/bash
+
+CHECKUPDATES_CMD="checkupdates"
+CHECK_AUR_UPDATES_CMD="aur-check-updates --color always"
+
+if [[ ! "$1" == "color" ]]; then
+    CHECKUPDATES_CMD="$CHECKUPDATES_CMD --nocolor"
+    CHECK_AUR_UPDATES_CMD=$(echo "$CHECK_AUR_UPDATES_CMD" | sed 's/always/never/g')
+fi
+
+UPDATES=$($CHECKUPDATES_CMD)
+AUR_UPDATES=$($CHECK_AUR_UPDATES_CMD)
+
+COUNT_UPDATES=0
+
+OLDIFS="$IFS"
+IFS=$(echo -en "\n\b")
+UPDATE_STRING=""
+
+for update in ${UPDATES[@]}; do
+    UPDATE_STRING=$([ -z "$UPDATE_STRING" ] && echo "$update" || echo "$UPDATE_STRING\n$update")
+    COUNT_UPDATES=$(bc <<< "$COUNT_UPDATES+1")
+done
+
+if [[ -z $(echo "$AUR_UPDATES" | grep "no updates") ]]; then
+    AUR_UPDATES=$(echo "$AUR_UPDATES" | tail -n +2)
+    AUR_TAG="[AUR]"
+    for update in ${AUR_UPDATES[@]}; do
+        UPDATE_STRING=$([ -z "$UPDATE_STRING" ] && echo "$AUR_TAG $update" || echo "$UPDATE_STRING\n$AUR_TAG $update")
+        COUNT_UPDATES=$(bc <<< "$COUNT_UPDATES+1")
+    done
+fi
+
+IFS="$OLDIFS"
+
+echo "$COUNT_UPDATES|$UPDATE_STRING"

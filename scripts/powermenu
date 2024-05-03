@@ -5,7 +5,7 @@ PIDS=$(pidof rofi)
 
 [[ ! -z $PIDS ]] && kill -9 $PIDS && exit
 
-entries="󰌾 Lock\n⇠   Logout\n⏾ Suspend\n󰑓 Reboot\n⏻ Shutdown"
+entries="󰌾\tLock\n\tLogout\n⏾\tSuspend\n󰑓\tReboot\n⏻\tShutdown"
 
 selected=$(echo -e $entries | rofi -dmenu -i -p "$PROMPT" | awk '{print tolower($2)}')
 

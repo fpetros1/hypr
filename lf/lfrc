@@ -4,6 +4,7 @@ set shell zsh
 set shellopts '-eu'
 set ifs "\n"
 set scrolloff 10
+set preview true
 set previewer ~/.config/lf/lf_kitty_preview
 set cleaner ~/.config/lf/lf_kitty_clean
 #set rulerfmt "%a  |%p  |\033[7;31m %m \033[0m  |\033[7;33m %c \033[0m  |\033[7;35m %s \033[0m  |\033[7;34m %f \033[0m  |%i/%t"
@@ -50,7 +51,7 @@ cmd mkfile %{{
 	CREATED=$(mkfile $TARGET -p)
 	echo ""
 	if [[ ! "$CREATED" == "." ]]; then
-		echo " Directory created, do you wish to move to it? [y/n] " && read MOVE
+		echo " Directory created, do you wish to move to it? [y/N]: " && read MOVE
 		if [[ "$MOVE" == "y" ]]; then
 			lf -remote "send $id cd '$CREATED'"
 		fi
@@ -69,18 +70,14 @@ cmd extract ${{
 	SELECTION=$(lf -command 'set dironly' -last-dir-path /dev/stdout)	
 	FULL_PATH="${SELECTION}"
 
-    echo "$FULL_PATH"
-
-    TYPE=$(file "$f" | cut -d ':' -f2- | cut -d ',' -f1 | xargs)
-
-    echo $TYPE
+    TYPE=$(file -Lb --mime-type "$f")
 
     case $TYPE in
-        bzip2*) tar -xjvf "$f" -C "$FULL_PATH";;
-        gzip*) tar -xzvf "$f" -C "$FULL_PATH";;
-        Zip*) unzip "$f" -d "$FULL_PATH";;
-        RAR*) unrar x "$f" "$FULL_PATH";;
-        7-zip*) 7z x "$f" -o"${FULL_PATH}";;
+        application/gzip) tar -xzvf "$f" -C "$FULL_PATH";;
+        application/zip) unzip "$f" -d "$FULL_PATH";;
+        application/x-rar*) unrar x "$f" "$FULL_PATH";;
+        application/x-7z*) 7z x "$f" -o"${FULL_PATH}";;
+        *) lf -remote "send $id printError '$TYPE not supported for extraction!'";;
     esac
 
 	lf -remote "send $id complete-extraction '$SELECTION'"
@@ -113,6 +110,10 @@ cmd tar ${{
 cmd test ${{
 	set -f
 	echo $SELECTION
+}}
+
+cmd printError %{{
+    echo "\033[31m $1"
 }}
 
 cmd zip ${{

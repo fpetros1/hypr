@@ -1,13 +1,4 @@
 #!/bin/bash
 
-trap "killall hyprpaper; exit" EXIT SIGINT
-
-while true; do
-    source $(which set-hyprland-socket)
-    hyprpaper &
-    sleep 1
-    hyprctl hyprpaper unload all
-    inotifywait -e create,modify "$hypr/hyprpaper.conf"
-    killall hyprpaper
-    sleep 1
-done
+source $(which set-hyprland-socket)
+hyprpaper &

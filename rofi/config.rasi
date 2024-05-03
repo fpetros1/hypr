@@ -6,6 +6,12 @@ configuration {
     sort: true;
     sorting-method: "fzf";
     case-sensitive: false;
+    run,drun {
+        fallback-icon: "application-x-addon";
+    }
+    dmenu {
+        fallback-icon: "arrow-right-double";
+    }
 }
 
 @theme "rounded-kanagawa"

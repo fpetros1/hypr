@@ -2,7 +2,7 @@
 
 CONFIG="$hypr/waybar/config-hypr.jsonc"
 STYLE="$hypr/waybar/style.css"
-MODULES="$hypr/waybar/modules"
+MODULES="$hypr/waybar/modules.jsonc"
 
 CONFIG_FILES="$CONFIG $STYLE $MODULES"
 
@@ -10,10 +10,6 @@ trap "killall waybar; exit" EXIT SIGINT
 
 while true; do
     waybar --log-level error --config ${CONFIG} --style ${STYLE} &
-    sleep 10 
-    update-waybar 8 
-    sleep 5
-    update-waybar 9
     inotifywait -e create,modify $CONFIG_FILES
     killall waybar
 done

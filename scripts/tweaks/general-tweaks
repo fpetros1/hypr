@@ -2,6 +2,10 @@
 
 export DISABLE_LAYER_AMD_SWITCHABLE_GRAPHICS_1=1
 export MANGOHUD_CONFIGFILE="$hypr/mangohud/MangoHud.conf"
+export PROTON_USE_WINESYNC=1
+export PROTON_NO_FSYNC=1
+export PROTON_NO_ESYNC=1
+#export PROTON_ENABLE_WAYLAND=1
 unset SDL_VIDEODRIVER
 
 xwayland-config

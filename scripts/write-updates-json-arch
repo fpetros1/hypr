@@ -1,0 +1,8 @@
+#!/bin/bash
+
+UPDATES=$(get-updates-arch)
+
+COUNT_UPDATES=$(echo "$UPDATES" | cut -d '|' -f1)
+UPDATE_STRING=$(echo "$UPDATES" | cut -d '|' -f2-)
+
+echo "{ \"text\": \"$COUNT_UPDATES\", \"tooltip\": \"$UPDATE_STRING\"}" > "$ARCH_UPDATES_FILE"

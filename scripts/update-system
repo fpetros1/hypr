@@ -1,6 +1,29 @@
 #!/bin/bash
 
-paru -Syu
+UPDATES=$(get-updates-arch color)
 
-(update-waybar 9; sleep 3; update-waybar 8) &
+COUNT_UPDATES=$(echo "$UPDATES" | cut -d '|' -f1)
+UPDATE_STRING=$(echo "$UPDATES" | cut -d '|' -f2-)
 
+if [[ $COUNT_UPDATES == 0 ]]; then
+    echo -e "\x1b[31mNo updates available.\x1b[0m"
+    pause
+    exit 1
+fi
+
+echo -e "\x1b[1;36mPackages:\x1b[0m \n$(echo "$UPDATE_STRING")\n"
+echo -e "\x1b[1;36mTotal updates: \x1b[32m$(echo "$COUNT_UPDATES")\x1b[0m"
+
+echo ""
+echo -n "Continue? [Y/n]: " && read RESPONSE
+
+if [[ -z "$RESPONSE" ]] || [[ $(echo "$RESPONSE" | awk '{print toupper($0)}') == "Y" ]]; then 
+    echo ""
+    paru --noconfirm -Syu
+    pause
+    exit 0
+fi
+
+echo -e "\n\x1b[31mUpdate canceled.\x1b[0m"
+pause
+exit 2
