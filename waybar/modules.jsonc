@@ -100,7 +100,7 @@
         "format": "{}",
         "return-type": "json",
         "exec": "device-battery",
-        "interval": 300
+        "interval": 10
     },
     "custom/notifications": {
         "tooltip": false,

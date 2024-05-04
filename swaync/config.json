@@ -27,7 +27,7 @@
     "scripts": {
         "sound": {
             "exec": "play-notification-sound",
-            "app-name": "."
+            "app-name": "^(?!blueman).*$"
         }
     },
     "widgets": [

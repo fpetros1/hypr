@@ -34,25 +34,30 @@ add_config_folder() {
     CONFIGS=$([ -z "$CONFIGS" ] && echo "$1" || echo "$CONFIGS:$1")
 }
 
-add_config_folder "$XDG_CONFIG_HOME/waybar"
-add_config_folder "$XDG_CONFIG_HOME/rofi"
-add_config_folder "$XDG_CONFIG_HOME/wofi"
-add_config_folder "$XDG_CONFIG_HOME/swaync"
-add_config_folder "$XDG_CONFIG_HOME/nvim"
-add_config_folder "$XDG_CONFIG_HOME/kitty"
-add_config_folder "$XDG_CONFIG_HOME/xdg-desktop-portal"
-add_config_folder "$XDG_CONFIG_HOME/lf"
+link_config_folders() {
+    OLDIFS="$IFS"
+    IFS=":"
+    for cf in $CONFIGS; do
+        CF_DIR="$XDG_CONFIG_HOME/$cf"
+        if [ -d "$CF_DIR" ] || [ -f "$CF_DIR" ]; then
+            echo "Removing current link: $hypr/$cf"
+            rm -Rf "$CF_DIR"
+        fi
+        
+        echo "Creating new link for: $hypr/$cf"
+        ln -s "$hypr/$(basename "$cf")" "$CF_DIR"
+    done
+    IFS="$OLDIFS"
+}
 
-OLDIFS="$IFS"
-IFS=":"
-for cf in $CONFIGS; do
-    if [ -d "$cf" ] || [ -f "$cf" ]; then
-        echo "Removing current link: $hypr/$(basename "$cf")"
-        rm -Rf "$cf"
-    fi
-    
-    echo "Creating new link for: $hypr/$(basename "$cf")"
-    ln -s "$hypr/$(basename "$cf")" "$cf"
-done
-IFS="$OLDIFS"
+add_config_folder "MangoHud"
+add_config_folder "waybar"
+add_config_folder "rofi"
+add_config_folder "wofi"
+add_config_folder "swaync"
+add_config_folder "nvim"
+add_config_folder "kitty"
+add_config_folder "xdg-desktop-portal"
+add_config_folder "lf"
 
+link_config_folders

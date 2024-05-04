@@ -3,3 +3,4 @@ wallpaper_folders.config.txt
 hypr-modules/monitors.conf
 scripts/.*
 hyprlock.conf
+MangoHud/MangoHud.conf

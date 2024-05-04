@@ -9,11 +9,14 @@
         "margin-left": 10,
         "margin-bottom": 0,
         "margin-right": 10,
-        "spacing": 5,
+        "spacing": 0,
         "modules-left": [
             //"custom/rofi",
-            "hyprland/workspaces",
-            "hyprland/window"
+            "hyprland/workspaces",  
+            "custom/weather",
+            "cpu",
+            "custom/gpu"
+            //"hyprland/window"
             //"hyprland/submap",
             //"idle_inhibitor",
             //"mpd"
@@ -21,19 +24,16 @@
         ],
         "modules-center": [
             "clock",
-            "custom/weather",
             "custom/pacman"
             //"custom/gammastep"
         ],
         "modules-right": [
-            "cpu",
-            "custom/gpu",
+            "tray",
+            "wireplumber",
             "temperature",
             //"memory",
             //"battery",
             //"pulseaudio",
-            "wireplumber",
-            "tray",
             "custom/battery",
             "custom/notifications"
         ]
@@ -48,11 +48,14 @@
         "margin-left": 10,
         "margin-bottom": 0,
         "margin-right": 10,
-        "spacing": 3,
+        "spacing": 0,
         "modules-left": [
             //"custom/rofi",
-            "hyprland/workspaces",
-            "hyprland/window"
+            "hyprland/workspaces",  
+            "custom/weather",
+            "cpu",
+            "custom/gpu"
+            //"hyprland/window"
             //"hyprland/submap",
             //"idle_inhibitor",
             //"mpd"
@@ -60,19 +63,16 @@
         ],
         "modules-center": [
             "clock",
-            "custom/weather",
             "custom/pacman"
             //"custom/gammastep"
         ],
         "modules-right": [
-            "cpu",
-            "custom/gpu",
+            "tray",
+            "wireplumber",
             "temperature",
             //"memory",
             //"battery",
             //"pulseaudio",
-            "wireplumber",
-            "tray#small",
             "custom/battery",
             "custom/notifications"
         ]

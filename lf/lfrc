@@ -116,6 +116,125 @@ cmd printError %{{
     echo "\033[31m $1"
 }}
 
+cmd harpoonSet %{{
+    set -pwd
+
+    HARPOON_FILE="$XDG_RUNTIME_DIR/harpoon.$USER.dirs"
+
+    if [[ ! -f "$HARPOON_FILE" ]]; then
+        touch "$HARPOON_FILE"
+    fi
+
+    HARPOON_TARGET="$PWD"
+    if [[ -z $(cat "$HARPOON_FILE" | grep "^[1-9])${HARPOON_TARGET}$") ]]; then
+        COUNT=$(cat "$HARPOON_FILE" | wc -l)
+        echo "$(bc <<< "$COUNT+1"))$HARPOON_TARGET" | tee -a "$HARPOON_FILE"
+        TOTAL=$(cat "$HARPOON_FILE" | tail -n 1 | cut -d ')' -f1)
+        lf -remote "send $id echo 'Added $HARPOON_TARGET to the Harpoon List. $TOTAL directories in the list.'"
+    fi
+}}
+
+cmd harpoonGoFwd ${{
+    set -f  
+    HARPOON_FILE="$XDG_RUNTIME_DIR/harpoon.$USER.dirs"
+    CURRENT_HARPOON_FILE="$XDG_RUNTIME_DIR/$USER.harpoon.current"
+
+    if [[ ! -f "$CURRENT_HARPOON_FILE" ]]; then
+        echo "0" > "$CURRENT_HARPOON_FILE"
+    fi
+
+    TOTAL_HARPOON=$(cat "$HARPOON_FILE" | wc -l)
+
+    if [[ -z "$TOTAL_HARPOON" ]] || [[ "$TOTAL_HARPOON" == "0" ]]; then
+        lf -remote "send $id echo 'No Harpoons available!'"
+        exit
+    fi
+
+    send_and_print_harpoon() {
+        echo "$2" | cut -d ')' -f1 > "$CURRENT_HARPOON_FILE"
+        lf -remote "send $id cd '$1'"
+        lf -remote "send $id echo '$2'"
+    }
+
+    if [[ "$TOTAL_HARPOON" == "1" ]]; then
+        LAST_HARPOON_LINE=$(cat "$HARPOON_FILE" | tail -n 1)
+        HARPOON_DIR=$(echo "$LAST_HARPOON_LINE" | cut -d ')' -f2-)
+
+        if [[ ! "$PWD" == "$HARPOON_DIR" ]]; then
+            send_and_print_harpoon "$HARPOON_DIR" "$LAST_HARPOON_LINE"
+        fi
+        exit
+    fi
+
+    CURRENT_HARPOON=$(cat "$CURRENT_HARPOON_FILE")
+    TARGET_HARPOON=$(bc <<< "$CURRENT_HARPOON+1")
+    
+    if [[ "$TARGET_HARPOON" -gt "$TOTAL_HARPOON" ]]; then
+        FIRST_HARPOON_LINE=$(cat "$HARPOON_FILE" | head -n 1)
+        FIRST_HARPOON_DIR=$(echo "$FIRST_HARPOON_LINE" | cut -d ')' -f2-)
+        send_and_print_harpoon "$FIRST_HARPOON_DIR" "$FIRST_HARPOON_LINE"
+        exit
+    fi
+
+    TARGET_HARPOON_LINE=$(cat "$HARPOON_FILE" | grep "^$TARGET_HARPOON)")
+    TARGET_HARPOON_DIR=$(echo "$TARGET_HARPOON_LINE" | cut -d ')' -f2)
+    send_and_print_harpoon "$TARGET_HARPOON_DIR" "$TARGET_HARPOON_LINE"
+}}
+
+cmd harpoonGoBck ${{
+    set -f  
+    HARPOON_FILE="$XDG_RUNTIME_DIR/harpoon.$USER.dirs"
+    CURRENT_HARPOON_FILE="$XDG_RUNTIME_DIR/$USER.harpoon.current"
+
+    if [[ ! -f "$CURRENT_HARPOON_FILE" ]]; then
+        echo "0" > "$CURRENT_HARPOON_FILE"
+    fi
+
+    TOTAL_HARPOON=$(cat "$HARPOON_FILE" | wc -l)
+
+    if [[ -z "$TOTAL_HARPOON" ]] || [[ "$TOTAL_HARPOON" == "0" ]]; then
+        lf -remote "send $id echo 'No Harpoons available!'"
+        exit
+    fi
+
+    send_and_print_harpoon() {
+        echo "$2" | cut -d ')' -f1 > "$CURRENT_HARPOON_FILE"
+        lf -remote "send $id cd '$1'"
+        lf -remote "send $id echo '$2'"
+    }
+
+    if [[ "$TOTAL_HARPOON" == "1" ]]; then
+        LAST_HARPOON_LINE=$(cat "$HARPOON_FILE" | tail -n 1)
+        HARPOON_DIR=$(echo "$LAST_HARPOON_LINE" | cut -d ')' -f2-)
+
+        if [[ ! "$PWD" == "$HARPOON_DIR" ]]; then
+            send_and_print_harpoon "$HARPOON_DIR" "$LAST_HARPOON_LINE"
+        fi
+        exit
+    fi
+
+    CURRENT_HARPOON=$(cat "$CURRENT_HARPOON_FILE")
+    TARGET_HARPOON=$(bc <<< "$CURRENT_HARPOON-1")
+    
+    if [[ "$TARGET_HARPOON" -lt "1" ]]; then
+        LAST_HARPOON_LINE=$(cat "$HARPOON_FILE" | tail -n 1)
+        LAST_HARPOON_DIR=$(echo "$LAST_HARPOON_LINE" | cut -d ')' -f2-)
+        send_and_print_harpoon "$LAST_HARPOON_DIR" "$LAST_HARPOON_LINE"
+        exit
+    fi
+
+    TARGET_HARPOON_LINE=$(cat "$HARPOON_FILE" | grep "^$TARGET_HARPOON)")
+    TARGET_HARPOON_DIR=$(echo "$TARGET_HARPOON_LINE" | cut -d ')' -f2)
+    send_and_print_harpoon "$TARGET_HARPOON_DIR" "$TARGET_HARPOON_LINE"
+}}
+
+cmd harpoonClear ${{
+    set -f
+    HARPOON_FILE="$XDG_RUNTIME_DIR/harpoon.$USER.dirs"
+    rm -f "$HARPOON_FILE"
+    lf -remote "send $id echo 'Harpoon Cleared'"
+}}
+
 cmd zip ${{
     set -f
 	if [ -z "$fs" ]; then
@@ -160,6 +279,10 @@ map xe extract
 map xt tar
 map xz zip
 map x7 7z
+map zHs harpoonSet
+map <c-j> harpoonGoFwd
+map <c-k> harpoonGoBck
+map zHc harpoonClear
 
 # Commands
 map gh gohome

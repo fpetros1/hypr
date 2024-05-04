@@ -95,7 +95,7 @@ if [ ! -z "$SELECTED_FILE" ]; then
 
     echo -e $OUTPUT > $hypr/hyprpaper.conf 
 
-    sed "s|path\ \=\ .*|path\ \=\ $SELECTED|g" "$hypr/hyprlock.example.conf" > "$hypr/hyprlock.conf"
+    sed "s|path\ \=\ .*|path\ \=\ $SELECTED|g" "$hypr/hyprlock.proto.conf" > "$hypr/hyprlock.conf"
 fi
 
 

@@ -7,7 +7,7 @@ PIDS=$(pidof rofi)
 
 entries="󰌾\tLock\n\tLogout\n⏾\tSuspend\n󰑓\tReboot\n⏻\tShutdown"
 
-selected=$(echo -e $entries | rofi -dmenu -i -p "$PROMPT" | awk '{print tolower($2)}')
+selected=$(echo -e $entries | rofi -dmenu -no-show-icons -i -p "$PROMPT" | awk '{print tolower($2)}')
 
 case $selected in
   lock)

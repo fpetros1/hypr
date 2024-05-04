@@ -1,0 +1,23 @@
+#!/bin/bash
+
+SCRIPTS_DIR="$hypr/scripts"
+
+SELECTED="$(command find $SCRIPTS_DIR | \
+	prune-dirs | \
+	map basename | \
+	cut -d'.' -f1 | \
+	rofi -dmenu -i -p "Pick a Script:")"
+
+if [[ -n $SELECTED ]]; then
+	ACTION=$(echo -e "Run\nEdit" | rofi -dmenu -p "Choose an Action:")
+
+	LINK_PATH=$(which $SELECTED)
+	SCRIPT_REAL_PATH=$(realpath $LINK_PATH)
+
+	if [ "$ACTION" == "Run" ]; then
+		exec "$SCRIPT_REAL_PATH"
+	fi
+	
+	exec "$VISUAL" "$SCRIPT_REAL_PATH"
+fi
+

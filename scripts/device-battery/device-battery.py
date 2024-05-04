@@ -3,8 +3,8 @@
 import socket
 import os
 
-portfile_folder = f'{os.getenv("HOME")}/.local/share/device-battery'
-portfile_path = f'{portfile_folder}/.port'
+portfile_folder = f'{os.getenv("XDG_RUNTIME_DIR")}/device-battery'
+portfile_path = f'{portfile_folder}/socket'
 
 portfile = open(portfile_path, "r")
 port = portfile.readline()

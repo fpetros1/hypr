@@ -1,0 +1,10 @@
+#!/bin/bash
+
+while read arg
+do
+	if [[ ! -d "$arg" ]]; then
+		echo "$arg"
+	fi
+	
+done < /dev/stdin
+

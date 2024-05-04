@@ -7,16 +7,18 @@ import time
 import threading
 import socket
 
-lockfile_folder = f'{os.getenv("HOME")}/.local/share/device-battery'
+lockfile_folder = f'{os.getenv("XDG_RUNTIME_DIR")}/device-battery'
 
 device_name_header = 'Device:'
 model_name_header = 'model:'
 has_statistiscs_header = 'has statistics:'
+has_history_header = 'has history:'
 percentage_header = 'percentage:'
 state_header = 'state:'
 
 model_property = 'model'
 has_statistiscs_property = 'has_statistiscs'
+has_history_property = 'has_history'
 state_property = 'state'
 
 percentage_property = 'percentage'
@@ -44,7 +46,7 @@ def lockfile_handler():
 
 def filter_with_model_and_statistics(device):
     return device[model_property] is not None and\
-        device[has_statistiscs_property] is True
+            (device[has_statistiscs_property] is True or device[has_history_property] is True)
 
 
 def filter_is_charging(device):
@@ -83,6 +85,10 @@ def parse_upower_information():
 
             if stripped_line.startswith(has_statistiscs_header):
                 devices[device_index][has_statistiscs_property] = \
+                    parse_line_value(stripped_line) == 'yes'
+            
+            if stripped_line.startswith(has_history_header):
+                devices[device_index][has_history_property] = \
                     parse_line_value(stripped_line) == 'yes'
 
             if stripped_line.startswith(percentage_header):
@@ -194,7 +200,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
 
     server.bind((socket.gethostname(), 0))
 
-    portfile_path = f'{lockfile_folder}/.port'
+    portfile_path = f'{lockfile_folder}/socket'
 
     portfile = open(portfile_path, "w")
     portfile.write(str(server.getsockname()[1]))
