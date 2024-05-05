@@ -4,6 +4,7 @@ set shell zsh
 set shellopts '-eu'
 set ifs "\n"
 set scrolloff 10
+set info size
 set preview true
 set previewer ~/.config/lf/lf_kitty_preview
 set cleaner ~/.config/lf/lf_kitty_clean
@@ -134,10 +135,19 @@ cmd harpoonSet %{{
     fi
 }}
 
-cmd harpoonGoFwd ${{
+cmd harpoonGoFwd %{{
     set -f  
     HARPOON_FILE="$XDG_RUNTIME_DIR/harpoon.$USER.dirs"
     CURRENT_HARPOON_FILE="$XDG_RUNTIME_DIR/$USER.harpoon.current"
+
+    send_no_harpoons_available() {
+        lf -remote "send $id echo 'No Harpoons available!'"
+    }
+
+    if [[ ! -f "$HARPOON_FILE" ]]; then
+        send_no_harpoons_available
+        exit
+    fi
 
     if [[ ! -f "$CURRENT_HARPOON_FILE" ]]; then
         echo "0" > "$CURRENT_HARPOON_FILE"
@@ -146,7 +156,7 @@ cmd harpoonGoFwd ${{
     TOTAL_HARPOON=$(cat "$HARPOON_FILE" | wc -l)
 
     if [[ -z "$TOTAL_HARPOON" ]] || [[ "$TOTAL_HARPOON" == "0" ]]; then
-        lf -remote "send $id echo 'No Harpoons available!'"
+        send_no_harpoons_available
         exit
     fi
 
@@ -181,10 +191,19 @@ cmd harpoonGoFwd ${{
     send_and_print_harpoon "$TARGET_HARPOON_DIR" "$TARGET_HARPOON_LINE"
 }}
 
-cmd harpoonGoBck ${{
+cmd harpoonGoBck %{{
     set -f  
     HARPOON_FILE="$XDG_RUNTIME_DIR/harpoon.$USER.dirs"
     CURRENT_HARPOON_FILE="$XDG_RUNTIME_DIR/$USER.harpoon.current"
+    
+    send_no_harpoons_available() {
+        lf -remote "send $id echo 'No Harpoons available!'"
+    }
+
+    if [[ ! -f "$HARPOON_FILE" ]]; then
+        send_no_harpoons_available
+        exit
+    fi
 
     if [[ ! -f "$CURRENT_HARPOON_FILE" ]]; then
         echo "0" > "$CURRENT_HARPOON_FILE"
@@ -192,8 +211,8 @@ cmd harpoonGoBck ${{
 
     TOTAL_HARPOON=$(cat "$HARPOON_FILE" | wc -l)
 
-    if [[ -z "$TOTAL_HARPOON" ]] || [[ "$TOTAL_HARPOON" == "0" ]]; then
-        lf -remote "send $id echo 'No Harpoons available!'"
+    if [[ ! -f "$HARPOON_FILE" ]] || [[ -z "$TOTAL_HARPOON" ]] || [[ "$TOTAL_HARPOON" == "0" ]]; then
+        send_no_harpoons_available
         exit
     fi
 
@@ -228,7 +247,7 @@ cmd harpoonGoBck ${{
     send_and_print_harpoon "$TARGET_HARPOON_DIR" "$TARGET_HARPOON_LINE"
 }}
 
-cmd harpoonClear ${{
+cmd harpoonClear %{{
     set -f
     HARPOON_FILE="$XDG_RUNTIME_DIR/harpoon.$USER.dirs"
     rm -f "$HARPOON_FILE"

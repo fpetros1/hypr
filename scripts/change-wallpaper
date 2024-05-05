@@ -1,8 +1,36 @@
 #!/bin/bash
 
 trap "hyprctl hyprpaper unload all" SIGINT ERR EXIT
-
 source $(which set-hyprland-socket)
+
+set_wallpaper() {
+    if [ ! -z "$1" ]; then    
+        SELECTED=$(echo -e $WALLPAPER_LIST | grep "$1")
+        hyprctl hyprpaper preload "$SELECTED"
+
+        MONITORS=$(hyprctl monitors -j | jq '[.[]]|sort_by(.name)' | jq -r '.[].name')
+        OUTPUT="splash = false\n\npreload = $SELECTED\n"
+
+        for monitor in $MONITORS; do
+           OUTPUT="$OUTPUT\nwallpaper = $monitor,$SELECTED" 
+           hyprctl hyprpaper wallpaper "$monitor,$SELECTED"
+        done
+
+        echo -e $OUTPUT > $hypr/hyprpaper.conf 
+
+        sed "s|path\ \=\ .*|path\ \=\ $SELECTED|g" "$hypr/hyprlock.proto.conf" > "$hypr/hyprlock.conf"
+    fi
+}
+
+if [[ ! -z "$1" ]] && [[ -f "$1" ]]; then
+    MIME_TYPE=$(file -Lb --mime-type "$1")
+
+    if [[ "$MIME_TYPE" =~ ^image\/ ]]; then
+        WALLPAPER_LIST="$1"
+        set_wallpaper "$1"
+    fi
+    exit
+fi
 
 PROMPT="Wallpaper:"
 PIDS=$(pidof rofi)
@@ -21,8 +49,8 @@ add_wallpaper_from_folder() {
 
 add_wallpaper() {
     if [ -f "$1" ]; then
-        EXTENSION=$(echo $(basename "$1") | cut -d '.' -f 2)
-        if [ $EXTENSION == "png" ] || [ $EXTENSION == "jpg" ]; then
+        MIME_TYPE=$(file -Lb --mime-type "$1")
+        if [[ $MIME_TYPE =~ ^image\/ ]]; then
             WALLPAPER_LIST=$([ -z "$WALLPAPERS" ] && echo $1 || echo "$WALLPAPER_LIST\n$1")
         fi
     fi
@@ -81,21 +109,4 @@ IFS="$OLDIFS"
 WALLPAPER_OPTS=$(echo -e "$WALLPAPER_LIST" | grep -v "^$" | map basename)
 SELECTED_FILE=$(echo "$WALLPAPER_OPTS" | rofi -application-fallback-icon "application-x-addon" -dmenu  -i -p "$PROMPT")
 
-if [ ! -z "$SELECTED_FILE" ]; then    
-    SELECTED=$(echo -e $WALLPAPER_LIST | grep "$SELECTED_FILE")
-    hyprctl hyprpaper preload "$SELECTED"
-
-    MONITORS=$(hyprctl monitors -j | jq '[.[]]|sort_by(.name)' | jq -r '.[].name')
-    OUTPUT="splash = false\n\npreload = $SELECTED\n"
-
-    for monitor in $MONITORS; do
-       OUTPUT="$OUTPUT\nwallpaper = $monitor,$SELECTED" 
-       hyprctl hyprpaper wallpaper "$monitor,$SELECTED"
-    done
-
-    echo -e $OUTPUT > $hypr/hyprpaper.conf 
-
-    sed "s|path\ \=\ .*|path\ \=\ $SELECTED|g" "$hypr/hyprlock.proto.conf" > "$hypr/hyprlock.conf"
-fi
-
-
+set_wallpaper "$SELECTED_FILE"

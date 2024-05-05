@@ -1,1 +1,3 @@
 #!/bin/bash
+
+echo $(cat $hypr/hyprpaper.conf | grep preload | head -n 1 | cut -d ' ' -f3-)
