@@ -1,3 +1,0 @@
-#!/bin/bash
-
-mpv --no-video --keep-open=no --volume=50 "$hypr/swaync/sound.mp3"

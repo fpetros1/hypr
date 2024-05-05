@@ -1,7 +1,0 @@
-#!/bin/bash
-
-PIDS=$(pidof rofi)
-OPEN_LAUNCHER="rofi -show drun"
-
-[[ ! -z $PIDS ]] && kill -9 $PIDS || $OPEN_LAUNCHER
-

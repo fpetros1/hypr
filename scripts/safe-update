@@ -1,4 +1,0 @@
-#!/bin/bash
-
-sudo timeshift --create --comments "$*"
-paru -Syu

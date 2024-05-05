@@ -1,7 +1,0 @@
-#!/bin/bash
-
-while true; do
-    killall -e -q device-batteryd
-    device-batteryd &
-    wait %1
-done

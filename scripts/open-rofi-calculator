@@ -1,7 +1,0 @@
-#!/bin/bash
-
-PIDS=$(pidof rofi)
-
-[[ ! -z $PIDS ]] && kill -9 $PIDS && exit
-
-rofi -show calc -modi calc -no-show-match -no-sort

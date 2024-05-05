@@ -1,3 +1,0 @@
-#!/bin/bash
-
-mpv --no-video --keep-open=no --end=00:02 --volume=50 $hypr/swaync/steam-sound.mp3

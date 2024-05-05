@@ -1,7 +1,0 @@
-#!/bin/bash
-
-export PROTON_USE_WINESYNC=0
-#export PROTON_NO_FSYNC=0
-#export PROTON_NO_ESYNC=0
-
-"$@"

@@ -1,9 +1,0 @@
-#!/bin/bash
-
-source $(which set-hyprland-socket)
-
-#STEAM_WS=$(hyprctl clients -j | jq '[.[] | select(.class == "steam")][0]' | jq '.workspace.id')
-#hyprctl dispatch workspace $STEAM_WS
-
-hyprctl --batch "dispatch workspace 1 ; dispatch togglespecialworkspace steam"
-

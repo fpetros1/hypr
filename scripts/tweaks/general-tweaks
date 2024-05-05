@@ -1,9 +1,0 @@
-#!/bin/bash
-
-export DISABLE_LAYER_AMD_SWITCHABLE_GRAPHICS_1=1
-export MANGOHUD_CONFIGFILE="$hypr/MangoHud/MangoHud.conf"
-export PROTON_USE_WINESYNC=1
-export MANGOHUD=1
-unset SDL_VIDEODRIVER
-
-xwayland-config

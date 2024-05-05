@@ -1,5 +1,0 @@
-#!/bin/bash
-
-DESKTOP_FILE=$(get-firefoxpwa-desktop-file "$1")
-
-echo  $(basename "$DESKTOP_FILE" | cut -d '.' -f1)

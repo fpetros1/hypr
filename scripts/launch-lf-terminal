@@ -1,3 +1,0 @@
-#!/bin/bash
- 
-"$TERMINAL" --class "lf" lf "$@"
