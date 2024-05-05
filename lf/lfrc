@@ -113,144 +113,69 @@ cmd test ${{
 	echo $SELECTION
 }}
 
-cmd printError %{{
+cmd printError :{{
     echo "\033[31m $1"
 }}
 
-cmd harpoonSet %{{
+cmd harpoonAdd %{{
     set -pwd
+    harpoon add "$PWD"
 
-    HARPOON_FILE="$XDG_RUNTIME_DIR/harpoon.$USER.dirs"
-
-    if [[ ! -f "$HARPOON_FILE" ]]; then
-        touch "$HARPOON_FILE"
+    if [[ "$?" -gt 0 ]]; then
+        lf -remote "send $id echoerr 'Failed to add harpoon!'"
+        exit
     fi
 
-    HARPOON_TARGET="$PWD"
-    if [[ -z $(cat "$HARPOON_FILE" | grep "^[1-9])${HARPOON_TARGET}$") ]]; then
-        COUNT=$(cat "$HARPOON_FILE" | wc -l)
-        echo "$(bc <<< "$COUNT+1"))$HARPOON_TARGET" | tee -a "$HARPOON_FILE"
-        TOTAL=$(cat "$HARPOON_FILE" | tail -n 1 | cut -d ')' -f1)
-        lf -remote "send $id echo 'Added $HARPOON_TARGET to the Harpoon List. $TOTAL directories in the list.'"
-    fi
+    lf -remote "send $id echo 'Harpoon added. $(harpoon length) harpoons in total'"
 }}
 
-cmd harpoonGoFwd %{{
+cmd harpoonNext %{{
     set -f  
-    HARPOON_FILE="$XDG_RUNTIME_DIR/harpoon.$USER.dirs"
-    CURRENT_HARPOON_FILE="$XDG_RUNTIME_DIR/$USER.harpoon.current"
 
     send_no_harpoons_available() {
-        lf -remote "send $id echo 'No Harpoons available!'"
+        lf -remote "send $id echoerr 'No Harpoons available!'"
     }
-
-    if [[ ! -f "$HARPOON_FILE" ]]; then
-        send_no_harpoons_available
-        exit
-    fi
-
-    if [[ ! -f "$CURRENT_HARPOON_FILE" ]]; then
-        echo "0" > "$CURRENT_HARPOON_FILE"
-    fi
-
-    TOTAL_HARPOON=$(cat "$HARPOON_FILE" | wc -l)
-
-    if [[ -z "$TOTAL_HARPOON" ]] || [[ "$TOTAL_HARPOON" == "0" ]]; then
-        send_no_harpoons_available
-        exit
-    fi
 
     send_and_print_harpoon() {
-        echo "$2" | cut -d ')' -f1 > "$CURRENT_HARPOON_FILE"
         lf -remote "send $id cd '$1'"
-        lf -remote "send $id echo '$2'"
+        lf -remote "send $id echo '$(bc <<< "$(harpoon current_index) + 1") - $1'"
     }
 
-    if [[ "$TOTAL_HARPOON" == "1" ]]; then
-        LAST_HARPOON_LINE=$(cat "$HARPOON_FILE" | tail -n 1)
-        HARPOON_DIR=$(echo "$LAST_HARPOON_LINE" | cut -d ')' -f2-)
+    NEXT=$(harpoon next)
 
-        if [[ ! "$PWD" == "$HARPOON_DIR" ]]; then
-            send_and_print_harpoon "$HARPOON_DIR" "$LAST_HARPOON_LINE"
-        fi
+    if [[ -z "$NEXT" ]]; then
+        send_no_harpoons_available
         exit
     fi
 
-    CURRENT_HARPOON=$(cat "$CURRENT_HARPOON_FILE")
-    TARGET_HARPOON=$(bc <<< "$CURRENT_HARPOON+1")
-    
-    if [[ "$TARGET_HARPOON" -gt "$TOTAL_HARPOON" ]]; then
-        FIRST_HARPOON_LINE=$(cat "$HARPOON_FILE" | head -n 1)
-        FIRST_HARPOON_DIR=$(echo "$FIRST_HARPOON_LINE" | cut -d ')' -f2-)
-        send_and_print_harpoon "$FIRST_HARPOON_DIR" "$FIRST_HARPOON_LINE"
-        exit
-    fi
-
-    TARGET_HARPOON_LINE=$(cat "$HARPOON_FILE" | grep "^$TARGET_HARPOON)")
-    TARGET_HARPOON_DIR=$(echo "$TARGET_HARPOON_LINE" | cut -d ')' -f2)
-    send_and_print_harpoon "$TARGET_HARPOON_DIR" "$TARGET_HARPOON_LINE"
+    send_and_print_harpoon "$NEXT"
 }}
 
-cmd harpoonGoBck %{{
+cmd harpoonPrevious %{{
     set -f  
-    HARPOON_FILE="$XDG_RUNTIME_DIR/harpoon.$USER.dirs"
-    CURRENT_HARPOON_FILE="$XDG_RUNTIME_DIR/$USER.harpoon.current"
-    
+
     send_no_harpoons_available() {
-        lf -remote "send $id echo 'No Harpoons available!'"
+        lf -remote "send $id echoerr 'No Harpoons available!'"
     }
-
-    if [[ ! -f "$HARPOON_FILE" ]]; then
-        send_no_harpoons_available
-        exit
-    fi
-
-    if [[ ! -f "$CURRENT_HARPOON_FILE" ]]; then
-        echo "0" > "$CURRENT_HARPOON_FILE"
-    fi
-
-    TOTAL_HARPOON=$(cat "$HARPOON_FILE" | wc -l)
-
-    if [[ ! -f "$HARPOON_FILE" ]] || [[ -z "$TOTAL_HARPOON" ]] || [[ "$TOTAL_HARPOON" == "0" ]]; then
-        send_no_harpoons_available
-        exit
-    fi
 
     send_and_print_harpoon() {
-        echo "$2" | cut -d ')' -f1 > "$CURRENT_HARPOON_FILE"
         lf -remote "send $id cd '$1'"
-        lf -remote "send $id echo '$2'"
+        lf -remote "send $id echo '$(bc <<< "$(harpoon current_index) + 1") - $1'"
     }
 
-    if [[ "$TOTAL_HARPOON" == "1" ]]; then
-        LAST_HARPOON_LINE=$(cat "$HARPOON_FILE" | tail -n 1)
-        HARPOON_DIR=$(echo "$LAST_HARPOON_LINE" | cut -d ')' -f2-)
+    PREVIOUS=$(harpoon previous)
 
-        if [[ ! "$PWD" == "$HARPOON_DIR" ]]; then
-            send_and_print_harpoon "$HARPOON_DIR" "$LAST_HARPOON_LINE"
-        fi
+    if [[ -z "$PREVIOUS" ]]; then
+        send_no_harpoons_available
         exit
     fi
 
-    CURRENT_HARPOON=$(cat "$CURRENT_HARPOON_FILE")
-    TARGET_HARPOON=$(bc <<< "$CURRENT_HARPOON-1")
-    
-    if [[ "$TARGET_HARPOON" -lt "1" ]]; then
-        LAST_HARPOON_LINE=$(cat "$HARPOON_FILE" | tail -n 1)
-        LAST_HARPOON_DIR=$(echo "$LAST_HARPOON_LINE" | cut -d ')' -f2-)
-        send_and_print_harpoon "$LAST_HARPOON_DIR" "$LAST_HARPOON_LINE"
-        exit
-    fi
-
-    TARGET_HARPOON_LINE=$(cat "$HARPOON_FILE" | grep "^$TARGET_HARPOON)")
-    TARGET_HARPOON_DIR=$(echo "$TARGET_HARPOON_LINE" | cut -d ')' -f2)
-    send_and_print_harpoon "$TARGET_HARPOON_DIR" "$TARGET_HARPOON_LINE"
+    send_and_print_harpoon "$PREVIOUS"
 }}
 
-cmd harpoonClear %{{
+cmd harpoonReset %{{
     set -f
-    HARPOON_FILE="$XDG_RUNTIME_DIR/harpoon.$USER.dirs"
-    rm -f "$HARPOON_FILE"
+    harpoon reset
     lf -remote "send $id echo 'Harpoon Cleared'"
 }}
 
@@ -298,10 +223,10 @@ map xe extract
 map xt tar
 map xz zip
 map x7 7z
-map zHs harpoonSet
-map <c-j> harpoonGoFwd
-map <c-k> harpoonGoBck
-map zHc harpoonClear
+map shh harpoonAdd
+map <c-j> harpoonNext
+map <c-k> harpoonPrevious
+map Chh harpoonReset
 
 # Commands
 map gh gohome
