@@ -1,9 +1,21 @@
 #!/bin/bash
 
-if [[ -z $(pgrep "$1") ]]; then
-    "$1" &
+PROC="$1"
+BIN=""
+
+proc_bin_override() {
+    case "$1" in
+        steam) BIN="steam-native";;
+        *) BIN="$1";;
+    esac
+}
+
+proc_bin_override "$PROC"
+
+if [[ -z $(pgrep "$PROC") ]]; then
+    "$BIN" &
     exit
 fi
 
 source $(which set-hyprland-socket)
-exec hyprctl dispatch togglespecialworkspace "$1"
+exec hyprctl dispatch togglespecialworkspace "$PROC"

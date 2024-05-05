@@ -1,12 +1,10 @@
 #!/bin/bash
 
 GENERAL_TWEAKS="general-tweaks"
-MANGOHUD_COMMAND="mangohud"
 GAMEMODE_COMMAND="gamemoderun"
 
 source $(which $GENERAL_TWEAKS)
 
 exec\
-    $MANGOHUD_COMMAND\
 	$GAMEMODE_COMMAND\
 	"$@"

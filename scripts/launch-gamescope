@@ -1,15 +1,15 @@
 #!/bin/bash
 
 GENERAL_TWEAKS="general-tweaks"
-MANGOHUD_COMMAND="mangohud"
 CURSOR="$HOME/.icons/material_light_cursors/cursor.theme"
 GAMESCOPE_COMMAND="gamescope -f ${GAMESCOPE_HDR} -r 165 -w 3440 -h 1440 --force-grab-cursor --cursor ${CURSOR}"
 GAMEMODE_COMMAND="gamemoderun"
+
+export ENABLE_GAMESCOPE_WSI=0
 
 source $(which $GENERAL_TWEAKS)
 
 exec\
     $GAMEMODE_COMMAND\
 	$GAMESCOPE_COMMAND\
-	$MANGOHUD_COMMAND\
 	"$@"

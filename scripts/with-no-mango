@@ -1,0 +1,5 @@
+#!/bin/bash
+
+export MANGOHUD=0
+
+"$@"

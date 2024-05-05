@@ -9,15 +9,18 @@ SELECTED="$(command find $SCRIPTS_DIR | \
 	rofi -dmenu -i -p "Pick a Script:")"
 
 if [[ -n $SELECTED ]]; then
-	ACTION=$(echo -e "Run\nEdit" | rofi -dmenu -p "Choose an Action:")
+	ACTION=$(echo -e "Run\nEdit\nMake Executable\nCreate Link" | rofi -dmenu -p "Choose an Action:")
 
-	LINK_PATH=$(which $SELECTED)
-	SCRIPT_REAL_PATH=$(realpath $LINK_PATH)
+	SCRIPT_REAL_PATH=$(find "$SCRIPTS_DIR" -wholename "*/$SELECTED")
 
-	if [ "$ACTION" == "Run" ]; then
-		exec "$SCRIPT_REAL_PATH"
-	fi
-	
-	exec "$VISUAL" "$SCRIPT_REAL_PATH"
+    echo "$SCRIPT_REAL_PATH"
+
+    case "$ACTION" in
+        Run) exec "$SCRIPT_REAL_PATH";;
+        Edit) exec "$TERMINAL" --class "script-editor" "$EDITOR" "$SCRIPT_REAL_PATH";;
+        Make\ Executable) exec chmod +x "$SCRIPT_REAL_PATH";;
+        Create\ Link) sudo ln -fs "$SCRIPT_REAL_PATH" "/usr/bin/$SELECTED";;
+        *) exit
+    esac	
 fi
 
