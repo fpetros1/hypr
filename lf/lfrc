@@ -119,14 +119,14 @@ cmd printError :{{
 
 cmd harpoonAdd %{{
     set -pwd
-    harpoon add "$PWD"
+    RESULT=$(harpoon-dir add "$PWD")
 
-    if [[ "$?" -gt 0 ]]; then
-        lf -remote "send $id echoerr 'Failed to add harpoon!'"
+    if [[ ! -z "$RESULT" ]]; then
+        lf -remote "send $id echoerr '$RESULT'"
         exit
     fi
 
-    lf -remote "send $id echo 'Harpoon added. $(harpoon length) harpoons in total'"
+    lf -remote "send $id echo 'Harpoon added. $(harpoon-dir length) harpoons in total'"
 }}
 
 cmd harpoonNext %{{
@@ -138,10 +138,10 @@ cmd harpoonNext %{{
 
     send_and_print_harpoon() {
         lf -remote "send $id cd '$1'"
-        lf -remote "send $id echo '$(bc <<< "$(harpoon current_index) + 1") - $1'"
+        lf -remote "send $id echo '$(bc <<< "$(harpoon-dir current_index) + 1") - $1'"
     }
 
-    NEXT=$(harpoon next)
+    NEXT=$(harpoon-dir next)
 
     if [[ -z "$NEXT" ]]; then
         send_no_harpoons_available
@@ -160,10 +160,10 @@ cmd harpoonPrevious %{{
 
     send_and_print_harpoon() {
         lf -remote "send $id cd '$1'"
-        lf -remote "send $id echo '$(bc <<< "$(harpoon current_index) + 1") - $1'"
+        lf -remote "send $id echo '$(bc <<< "$(harpoon-dir current_index) + 1") - $1'"
     }
 
-    PREVIOUS=$(harpoon previous)
+    PREVIOUS=$(harpoon-dir previous)
 
     if [[ -z "$PREVIOUS" ]]; then
         send_no_harpoons_available
@@ -173,10 +173,52 @@ cmd harpoonPrevious %{{
     send_and_print_harpoon "$PREVIOUS"
 }}
 
+cmd harpoonRemove ${{
+    trap "command clear && exit" SIGINT EXIT ERR
+
+    HARPOONS=$(harpoon-dir | enumerate)
+
+    if [[ -z "$HARPOONS" ]]; then
+        lf -remote "send $id echoerr 'No Harpoons available!'"
+        exit
+    fi
+
+    command clear
+    echo -e "Available Harpoons: \n"
+    echo "$HARPOONS"
+
+    echo -ne "\nChoose a Harpoon to remove[Abort]: " && read SELECTION
+
+    if [[ -z "$SELECTION" ]]; then
+        lf -remote "send $id echoerr 'Aborted'"
+        exit
+    fi
+
+    COUNT=$(echo "$HARPOONS" | wc -l)
+
+    if [[ "$SELECTION" -gt "$COUNT" ]] || [[ "$SELECTION" -lt 1 ]]; then
+        lf -remote "send $id echoerr 'Invalid Selection'"
+        exit
+    fi
+
+    HARPOON=$(echo "$HARPOONS" | grep "^$SELECTION - " | cut -d '-' -f2- | xargs)
+    
+    harpoon-dir remove "$HARPOON"
+    lf -remote "send $id echo 'Harpoon Removed!'" 
+}}
+
 cmd harpoonReset %{{
-    set -f
-    harpoon reset
+    harpoon-dir clear
     lf -remote "send $id echo 'Harpoon Cleared'"
+}}
+
+cmd harpoonList ${{
+    trap "command clear && exit" SIGINT EXIT ERR
+    command clear
+   
+    echo -e "Harpoons: \n"
+    harpoon-dir | enumerate
+    pause
 }}
 
 cmd zip ${{
@@ -223,10 +265,14 @@ map xe extract
 map xt tar
 map xz zip
 map x7 7z
-map shh harpoonAdd
+
+# Bookmark/Harpoon
+map ba harpoonAdd
+map bd harpoonRemove
+map bc harpoonReset
+map bl harpoonList
 map <c-j> harpoonNext
 map <c-k> harpoonPrevious
-map Chh harpoonReset
 
 # Commands
 map gh gohome
