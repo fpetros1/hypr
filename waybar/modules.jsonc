@@ -57,7 +57,7 @@
     },
     "cpu": {
         "interval": 1,
-        "format": "<big> </big><span color=\"darkgray\"> {usage}%</span>",
+        "format": "<big> </big><span color=\"#DCD7BA\"> {usage}%</span>",
         "min-length": 4
     },
     "custom/gpu": {
@@ -69,7 +69,7 @@
     "wireplumber": {
         "on-click": "pavucontrol",
         "on-click-right": "amixer sset Master toggle 1>/dev/null",
-        "format": "<span foreground='#fab387'>{icon}</span>  {volume}%",
+        "format": "<big>{icon}</big>  <span color=\"#DCD7BA\">{volume}%</span>",
         "format-muted": " ",
         "format-source": "",
         "format-source-muted": "",
