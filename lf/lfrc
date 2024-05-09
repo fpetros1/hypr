@@ -6,8 +6,15 @@ set ifs "\n"
 set scrolloff 10
 set info size
 set preview true
-set previewer ~/.config/lf/lf_kitty_preview
-set cleaner ~/.config/lf/lf_kitty_clean
+#set previewer ~/.config/lf/lf_kitty_preview
+#set cleaner ~/.config/lf/lf_kitty_clean
+#set previewer ctpv
+#set cleaner ctpvclear
+#&ctpv -s $id
+#&ctpvquit $id
+#cmd on-quit $stpvimg --end $id
+set sixel true
+set previewer ~/.config/lf/lf_sixel_preview
 #set rulerfmt "%a  |%p  |\033[7;31m %m \033[0m  |\033[7;33m %c \033[0m  |\033[7;35m %s \033[0m  |\033[7;34m %f \033[0m  |%i/%t"
 set selectfmt "48;2;118;148;106"
 set copyfmt "48;2;220;165;97"

@@ -32,7 +32,7 @@ MONITORS_CONFIG_FILE="$hypr/hypr-modules/monitors.conf"
     echo -n "source = ./monitors.auto.conf" > "$MONITORS_CONFIG_FILE"
 
 # Load Environment config in bash/zsh
-SOURCE_COMMAND='source "$hypr/.environment"' 
+SOURCE_COMMAND='source ".environment"' 
 
 [[ -f "$HOME/.zshrc" ]] && [[ -z $(cat "$HOME/.zshrc" | grep "$SOURCE_COMMAND") ]] && \
     echo -e "\n$SOURCE_COMMAND" | tee -a "$HOME/.zshrc"
@@ -51,6 +51,7 @@ update-scripts-link
 
 # Link Configurations
 CONFIGS=""
+HOME_FILES=""
 
 add_config_folder() {
     CONFIGS=$([ -z "$CONFIGS" ] && echo "$1" || echo "$CONFIGS:$1")
@@ -84,3 +85,7 @@ add_config_folder "xdg-desktop-portal"
 add_config_folder "lf"
 
 link_config_folders
+
+while read HOME_FILE; do
+    ln -fs "$hypr/home/$HOME_FILE" "$HOME/$HOME_FILE"
+done <<< $(ls -A $hypr/home)
