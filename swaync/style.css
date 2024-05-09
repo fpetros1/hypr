@@ -2,17 +2,16 @@
  * vim: ft=less
  */
 
-@define-color cc-bg alpha(#1e1e2e, 0.9);
-
-@define-color noti-border-color alpha(#89b4fa, 0.15);
-@define-color noti-bg #1e1e2e;
-@define-color noti-bg-hover shade(#1e1e2e, 0.95);
-@define-color noti-bg-focus alpha(#1e1e2e, 0.6);
+@define-color cc-bg alpha(#1F1F28, 0.9);
+@define-color noti-border-color alpha(#54546D, 0.15);
+@define-color noti-bg #1F1F28;
+@define-color noti-bg-hover shade(#1F1F28, 0.95);
+@define-color noti-bg-focus alpha(#1F1F28, 0.6);
 @define-color noti-close-bg rgba(255, 255, 255, 0.1);
 @define-color noti-close-bg-hover rgba(255, 255, 255, 0.15);
 
-@define-color bg-selected #cba6f7;
-@define-color text-color #cdd6f4;
+@define-color bg-selected #1F1F28;
+@define-color text-color #DCD7BA;
 
 .notification-row {
   outline: none;
