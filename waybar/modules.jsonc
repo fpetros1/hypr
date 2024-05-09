@@ -70,20 +70,20 @@
         "on-click": "pavucontrol",
         "on-click-right": "amixer sset Master toggle 1>/dev/null",
         "format": "<big>{icon}</big>  <span color=\"#DCD7BA\">{volume}%</span>",
-        "format-muted": " ",
+        "format-muted": " ",
         "format-source": "",
         "format-source-muted": "",
         "format-icons": {
             "headphone": " ",
-            "hands-free": " ",
-            "headset": " ",
+            "hands-free": " ",
+            "headset": " ",
             "phone": " ",
             "portable": " ",
             "car": " ",
             "default": [
-                " ",
-                " ",
-                " "
+                "󰕿 ",
+                "󰖀",
+                "󰕾"
             ]
         }
     },

@@ -14,10 +14,11 @@ config.cursor_blink_rate = 500
 config.window_close_confirmation = 'NeverPrompt'
 config.window_decorations = 'NONE'
 config.enable_tab_bar = false
-config.font = wezterm.font { family = 'JetBrainsMono Nerd Font', weight = 'Bold' }
-config.line_height = 1
-config.font_size = 14.5
+config.font = wezterm.font_with_fallback { 'undefined', 'JetBrains Mono Nerd Font' }
+config.line_height = 0.90
+config.font_size = 15
 config.enable_kitty_graphics = false
+config.warn_about_missing_glyphs = false
 
 config.color_schemes = {
     ['Kanagawa'] = {

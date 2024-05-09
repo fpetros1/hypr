@@ -1,5 +1,5 @@
 * {
-    font:   "JetBrains Nerd Font 14";
+    font:   "undefined 14";
 
     background-color:   transparent;
     text-color:         @fg0;
