@@ -27,6 +27,7 @@
     "scripts": {
         "sound": {
             "exec": "play-notification-sound",
+            "summary": "^(?!Aria2).*$",
             "app-name": "^(?!blueman).*$"
         }
     },

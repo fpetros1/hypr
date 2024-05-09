@@ -1,30 +1,52 @@
 #!/bin/bash
 
+# Set $XDG_CONFIG_HOME if empty
+[[ -z "$XDG_CONFIG_HOME" ]] && export XDG_CONFIG_HOME="$HOME/.config"
+
 # Set $hypr if empty
-if [ -z "$hypr" ]; then
-    export hypr="$XDG_CONFIG_HOME/hypr"
+[[ -z "$hypr" ]] && export hypr="$XDG_CONFIG_HOME/hypr"
+
+# Setup doas
+DOAS_BIN=$(which doas | grep -v "not found")
+[[ -z "$DOAS_BIN" ]] && command sudo pacman -S opendoas
+command sudo rm /etc/doas.conf
+echo "permit persist keepenv setenv {PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin} :wheel"\
+    | command sudo tee /etc/doas.conf
+echo "" | command sudo tee -a /etc/doas.conf
+command sudo chown -c root:root /etc/doas.conf
+command sudo chmod -c 0400 /etc/doas.conf
+
+# Install paru if not installed
+PARU_BIN=$(which paru | grep -v "not found")
+
+if [[ -z "$PARU_BIN" ]]; then
+    doas pacman -S base-devel
+    mkdir -p "$HOME/Staging"
+    git clone https://aur.archlinux.org/paru-bin.git "$HOME/Staging/paru"
+    makepkg -si -p "$HOME/Staging/paru/PKGBUILD"
 fi
 
 # Set automatic monitor config
-#echo -n "source = ./monitors.auto.conf" > $hypr/hypr-modules/monitors.conf
+MONITORS_CONFIG_FILE="$hypr/hypr-modules/monitors.conf"
+[[ -z $(cat "$MONITORS_CONFIG_FILE" | grep "source = ") ]] && \
+    echo -n "source = ./monitors.auto.conf" > "$MONITORS_CONFIG_FILE"
 
 # Load Environment config in bash/zsh
-#SOURCE_COMMAND='source "$hypr/.environment"'
+SOURCE_COMMAND='source "$hypr/.environment"' 
 
-if [ -f "$HOME/.zshrc" ] && [[ -z $(cat "$HOME/.zshrc" | grep "$SOURCE_COMMAND") ]]; then
+[[ -f "$HOME/.zshrc" ]] && [[ -z $(cat "$HOME/.zshrc" | grep "$SOURCE_COMMAND") ]] && \
     echo -e "\n$SOURCE_COMMAND" | tee -a "$HOME/.zshrc"
-fi
 
-if [ -f "$HOME/.bashrc" ] && [[ -z $(cat "$HOME/.bashrc" | grep "$SOURCE_COMMAND") ]]; then
+[[ -f "$HOME/.bashrc" ]] && [[ -z $(cat "$HOME/.bashrc" | grep "$SOURCE_COMMAND") ]] && \
     echo -e "\n$SOURCE_COMMAND" | tee -a "$HOME/.bashrc"
-fi
 
 # Create wallpaper config file
-cp "$hypr/wallpaper_folders.example.config.txt" "$hypr/wallpaper_folders.config.txt"
+WPP_CONFIG_FILE="$hypr/wallpaper_folders.config.txt"
+[[ ! -f "$WPP_CONFIG_FILE" ]] && \
+    cp "$hypr/wallpaper_folders.example.config.txt" "$WPP_CONFIG_FILE"
 
 # Install Scripts
-sudo rm "/usr/bin/update-scripts-link" 2> /dev/null
-sudo ln -s $hypr/scripts/update-scripts-link /usr/bin/update-scripts-link
+doas ln -fs "$hypr/scripts/update-scripts-link" "/usr/bin/update-scripts-link"
 update-scripts-link
 
 # Link Configurations
@@ -50,6 +72,7 @@ link_config_folders() {
     IFS="$OLDIFS"
 }
 
+add_config_folder "paru"
 add_config_folder "MangoHud"
 add_config_folder "waybar"
 add_config_folder "rofi"

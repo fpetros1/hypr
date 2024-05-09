@@ -9,7 +9,9 @@ alias lfa="eza --icons=always --no-quotes -l -f -a"
 alias checkupdates="checkupdates; update-waybar 8; update-waybar 9"
 
 # Replace some more things with better alternatives
-alias sudo='sudo -E '
+alias sudo='doas '
+alias doas='doas '
+alias sudoedit='doas nvim'
 alias vim='nvim'
 alias cat='bat'
 alias cls='command clear'

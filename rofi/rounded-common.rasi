@@ -11,7 +11,7 @@
 
 window {
     location:       center;
-    width:          600px;
+    width:          800px;
     border-radius:  20px;
     
     background-color:   @bg0;
