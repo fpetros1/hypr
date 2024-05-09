@@ -1,5 +1,7 @@
 #!/bin/bash
 
+precmd() { print "" }
+
 alias ls="eza --icons=always --no-quotes -l"
 alias lsa="eza --icons=always --no-quotes -l -a"
 alias ld="eza --icons=always --no-quotes -l -D"
