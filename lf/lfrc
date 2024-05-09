@@ -117,6 +117,11 @@ cmd printError :{{
     echo "\033[31m $1"
 }}
 
+cmd refresh %{{
+    set -pwd
+    lf -remote "send $id cd '$PWD'"
+}}
+
 cmd harpoonAdd %{{
     set -pwd
     RESULT=$(harpoon-dir add "$PWD")
@@ -259,6 +264,7 @@ map o open
 map <enter> shell
 map a mkfile
 map DD delete
+map R refresh
 
 # Archives
 map xe extract
