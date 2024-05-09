@@ -142,6 +142,16 @@ window#waybar.hidden {
   background-color: #1F1F28;
 }
 
+#custom-notifications {
+  color: #FFA066;
+  background-color: #1F1F28;
+}
+
+#custom-pacman {
+  color: #FFA066;
+  background-color: #1F1F28; 
+}
+
 #memory {
   color: #FFA066;
   background-color: #1F1F28;

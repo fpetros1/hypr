@@ -38,7 +38,7 @@
         }
     },
     "custom/pacman": {
-        "format": "<big>󰏔</big>  {}",
+        "format": "<big>󰏔</big>  <span color=\"#DCD7BA\">{}</span>",
         "interval": 2,
         "tooltip": true,
         "return-type": "json",
@@ -104,7 +104,7 @@
     },
     "custom/notifications": {
         "tooltip": false,
-        "format": "{icon}  {}",
+        "format": "<big>{icon}</big>  <span color=\"#DCD7BA\">{}</span>",
         "format-icons": {
             "notification": "<span foreground='red'><sup></sup></span>",
             "none": "",
