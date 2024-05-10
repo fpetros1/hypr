@@ -4,7 +4,7 @@ local config = wezterm.config_builder()
 config.window_padding = {
     left = 20,
     right = 20,
-    top = 0,
+    top = 10,
     bottom = 20
 }
 
@@ -27,7 +27,7 @@ config.color_schemes = {
         selection_fg = '#DCD7BA',
         selection_bg = '#223249',
         cursor_bg = '#DCD7BA',
-        cursor_fg = '#363646',
+        cursor_fg = '#1F1F28',
         cursor_border = '#DCD7BA',
     }
 }
