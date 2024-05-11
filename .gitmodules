@@ -1,5 +1,5 @@
 [submodule "nvim"]
-	path = nvim
+	path = config/nvim
 	url = https://github.com/fpetros1/nvim.git
 [submodule "scripts"]
 	path = scripts

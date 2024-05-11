@@ -50,42 +50,19 @@ doas ln -fs "$hypr/scripts/update-scripts-link" "/usr/bin/update-scripts-link"
 update-scripts-link
 
 # Link Configurations
-CONFIGS=""
-HOME_FILES=""
 
-add_config_folder() {
-    CONFIGS=$([ -z "$CONFIGS" ] && echo "$1" || echo "$CONFIGS:$1")
-}
-
-link_config_folders() {
-    OLDIFS="$IFS"
-    IFS=":"
-    for cf in $CONFIGS; do
-        CF_DIR="$XDG_CONFIG_HOME/$cf"
-        if [ -d "$CF_DIR" ] || [ -f "$CF_DIR" ]; then
-            echo "Removing current link: $hypr/$cf"
-            rm -Rf "$CF_DIR"
-        fi
-        
-        echo "Creating new link for: $hypr/$cf"
-        ln -s "$hypr/$(basename "$cf")" "$CF_DIR"
-    done
-    IFS="$OLDIFS"
-}
-
-add_config_folder "paru"
-add_config_folder "MangoHud"
-add_config_folder "waybar"
-add_config_folder "rofi"
-add_config_folder "wofi"
-add_config_folder "swaync"
-add_config_folder "nvim"
-add_config_folder "kitty"
-add_config_folder "xdg-desktop-portal"
-add_config_folder "lf"
-
-link_config_folders
+while read CONFIG_FOLDER; do
+    ln -sfT "$hypr/config/$CONFIG_FOLDER" "$XDG_CONFIG_HOME/$CONFIG_FOLDER"
+done <<< $(ls "$hypr/config")
 
 while read HOME_FILE; do
     ln -fs "$hypr/home/$HOME_FILE" "$HOME/$HOME_FILE"
 done <<< $(ls -A $hypr/home)
+
+while read OMZ_CUSTOM_FOLDER; do
+    mkdir -p "$HOME/.oh-my-zsh/custom/$OMZ_CUSTOM_FOLDER"
+    while read OMZ_CUSTOM_FILE; do
+        ln -fs "$hypr/oh-my-zsh/$OMZ_CUSTOM_FOLDER/$OMZ_CUSTOM_FILE" \
+            "$HOME/.oh-my-zsh/custom/$OMZ_CUSTOM_FOLDER/$OMZ_CUSTOM_FILE"
+    done <<< $(ls $hypr/oh-my-zsh/$OMZ_CUSTOM_FOLDER)
+done <<< $(ls $hypr/oh-my-zsh)
