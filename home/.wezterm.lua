@@ -16,7 +16,7 @@ config.window_decorations = 'NONE'
 config.enable_tab_bar = false
 config.font = wezterm.font_with_fallback { 'undefined', 'JetBrains Mono Nerd Font' }
 config.line_height = 0.9
-config.font_size = 15
+config.font_size = 14.5
 config.enable_kitty_graphics = false
 config.warn_about_missing_glyphs = false
 
