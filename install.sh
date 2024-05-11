@@ -10,7 +10,7 @@
 DOAS_BIN=$(which doas | grep -v "not found")
 [[ -z "$DOAS_BIN" ]] && command sudo pacman -S opendoas
 command sudo rm /etc/doas.conf
-echo "permit persist keepenv setenv {PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin} :wheel"\
+echo "permit persist keepenv :wheel"\
     | command sudo tee /etc/doas.conf
 echo "" | command sudo tee -a /etc/doas.conf
 command sudo chown -c root:root /etc/doas.conf

@@ -2,7 +2,7 @@
     {
         "name": "m3440x1440",
         "output": "DP-1",
-        "include": "$hypr/waybar/modules.jsonc",
+        "include": "$hypr/config/waybar/modules.jsonc",
         "layer": "top",
         "position": "top",
         "height": 55,
@@ -41,7 +41,7 @@
     {
         "name": "m1920x1080",
         "output": "DP-2",
-        "include": "$hypr/waybar/modules.jsonc",
+        "include": "$hypr/config/waybar/modules.jsonc",
         "layer": "top",
         "position": "top",
         "height": 55,
