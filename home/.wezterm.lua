@@ -27,9 +27,9 @@ config.color_schemes = {
         background = '#1F1F28',
         selection_fg = '#DCD7BA',
         selection_bg = '#223249',
-        cursor_bg = '#98BB6C',
+        cursor_bg = '#DCD7BA',
         cursor_fg = '#1F1F28',
-        cursor_border = '#98BB6C',
+        cursor_border = '#DCD7BA',
     }
 }
 
