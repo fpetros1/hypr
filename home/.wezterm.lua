@@ -4,7 +4,7 @@ local config = wezterm.config_builder()
 config.window_padding = {
     left = 20,
     right = 20,
-    top = 10,
+    top = 20,
     bottom = 20
 }
 
@@ -19,6 +19,7 @@ config.line_height = 0.9
 config.font_size = 14.5
 config.enable_kitty_graphics = false
 config.warn_about_missing_glyphs = false
+config.front_end = "WebGpu"
 
 config.color_schemes = {
     ['Kanagawa'] = {
