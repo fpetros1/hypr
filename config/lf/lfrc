@@ -264,6 +264,7 @@ cmd default-application ${{
 	fi
 }}
 
+
 # ----- Mappings -----
 
 # General
