@@ -43,7 +43,7 @@
         "tooltip": true,
         "return-type": "json",
         "exec": "cat $ARCH_UPDATES_FILE",
-        "on-click": "kitty --class update-system update-system; write-updates-json-arch",
+        "on-click": "kitty --class update-system update-system",
         "max-length": 15,
         "min-length": 5
     },

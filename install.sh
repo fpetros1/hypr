@@ -49,8 +49,12 @@ WPP_CONFIG_FILE="$hypr/wallpaper_folders.config.txt"
 doas ln -fs "$hypr/scripts/update-scripts-link" "/usr/bin/update-scripts-link"
 update-scripts-link
 
-# Link Configurations
+# Copy udev rules
+doas cp $hypr/udev/* /etc/udev/rules.d
+doas udevadm control --reload
+doas udevadm trigger
 
+# Link Configurations
 while read CONFIG_FOLDER; do
     ln -sfT "$hypr/config/$CONFIG_FOLDER" "$XDG_CONFIG_HOME/$CONFIG_FOLDER"
 done <<< $(ls "$hypr/config")

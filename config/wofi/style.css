@@ -1,9 +1,8 @@
 * {
     font-family: 'undefined';
     color: #DCD7BA;
-    font-size: 16px;
-    font-weight: 400;
-    text-decoration-color: red;
+    font-size: 18px;
+    font-weight: 800;
 }
 
 #input > image.left {
@@ -19,7 +18,6 @@
 #window {
     margin: 0px;
     border: none;
-    border-color: rgb(129, 126, 127);
     border-radius: 10px;
     background-color: #1F1F28;
 }

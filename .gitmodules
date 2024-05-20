@@ -4,3 +4,6 @@
 [submodule "scripts"]
 	path = scripts
 	url = https://github.com/fpetros1/scripts.git
+[submodule "udev"]
+	path = udev
+	url = git@github.com:fpetros1/udev.git
