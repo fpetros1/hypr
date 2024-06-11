@@ -1,7 +1,7 @@
 # ----- Configuration -----
 set icons
 set shell zsh
-set shellopts '-eu'
+set shellopts ''
 set ifs "\n"
 set scrolloff 10
 set info size
@@ -263,7 +263,6 @@ cmd default-application ${{
 		xdg-mime default "$APP" "$FILETYPE"
 	fi
 }}
-
 
 # ----- Mappings -----
 

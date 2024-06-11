@@ -1,7 +1,7 @@
 allow_images=true
 term=wezterm
 dynamic_lines=true
-matching=fuzzy
+matching=multi-contains
 parse_search=true
 hide_scroll=true
 normal_window=true
@@ -9,3 +9,4 @@ width=700px
 height=500px
 prompt=
 insensitive=true
+no_actions=true

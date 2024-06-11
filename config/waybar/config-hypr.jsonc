@@ -13,7 +13,7 @@
         "modules-left": [
             //"custom/rofi",
             "hyprland/workspaces",  
-            "custom/weather",
+            //"custom/weather",
             "cpu",
             "custom/gpu"
             //"hyprland/window"
@@ -52,7 +52,7 @@
         "modules-left": [
             //"custom/rofi",
             "hyprland/workspaces",  
-            "custom/weather",
+            //"custom/weather",
             "cpu",
             "custom/gpu"
             //"hyprland/window"
