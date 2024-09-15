@@ -8,15 +8,15 @@ config.window_padding = {
     bottom = 20
 }
 
-config.window_background_opacity = 0.85
+config.window_background_opacity = 0.98
 config.default_cursor_style = 'BlinkingBlock'
 config.cursor_blink_rate = 500
 config.window_close_confirmation = 'NeverPrompt'
-config.window_decorations = 'NONE'
+--config.window_decorations = 'NONE'
 config.enable_tab_bar = false
-config.font = wezterm.font_with_fallback { 'undefined', 'JetBrains Mono Nerd Font' }
-config.line_height = 0.9
-config.font_size = 14.5
+config.font = wezterm.font_with_fallback { 'Hack Nerd Font Mono', 'undefined', 'JetBrains Mono Nerd Font' }
+config.line_height = 1.2
+config.font_size = 12
 config.enable_kitty_graphics = false
 config.warn_about_missing_glyphs = false
 config.front_end = "WebGpu"

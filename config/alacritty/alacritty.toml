@@ -1,0 +1,103 @@
+live_config_reload = true
+working_directory = "None"
+
+[env]
+TERM = "xterm-256color"
+WINIT_X11_SCALE_FACTOR = "1"
+
+[shell] 
+program = "/bin/zsh"
+args = ["-c", "launch-or-attach-tmux"]
+
+[window]
+dynamic_padding = true
+decorations = "full"
+title = "Alacritty"
+opacity = 0.9
+decorations_theme_variant = "Dark"
+padding = { x = 15, y = 15 }
+
+[window.dimensions]
+#columns = 100
+#lines = 30
+
+[window.class]
+instance = "Alacritty"
+general = "Alacritty"
+
+[scrolling]
+history = 10000
+multiplier = 3
+
+[colors.primary]
+background = '#1F1F28'
+foreground = '#DCD7BA'
+
+[colors.normal]
+black = '#16161D'
+blue = '#7E9CD8'
+cyan = '#7FB4CA'
+green = '#98BB6C'
+magenta = '#957FB8'
+red = '#E82424'
+white = '#DCD7BA'
+yellow = '#E6C384'
+
+[colors.bright]
+black = '#a6a69c'
+blue = '#7FB4CA'
+cyan = '#7AA89F'
+green = '#87a987'
+magenta = '#938AA9'
+red = '#E46876'
+white = '#c5c9c5'
+yellow = '#E6C384'
+
+[colors.selection]
+background = '#DCD7BA'
+foreground = '#1F1F28'
+
+[[colors.indexed_colors]]
+index = 16
+color = '#ffa066'
+
+[[colors.indexed_colors]]
+index = 17
+color = '#ff5d62'
+
+[font]
+size = 12
+offset.y = 3
+
+[font.normal]
+family = "Hack Nerd Font Mono"
+style = "Bold"
+
+[font.bold]
+family = "Hack Nerd Font Mono"
+style = "Bold"
+
+[font.italic]
+family = "Hack Nerd Font Mono"
+style = "Italic"
+
+[font.bold_italic]
+family = "Hack Nerd Font Mono"
+style = "Bold Italic"
+
+[selection]
+semantic_escape_chars = ",│`|:\"' ()[]{}<>\t"
+save_to_clipboard = true
+
+[cursor]
+vi_mode_style = "None"
+unfocused_hollow = true
+thickness = 0.15
+blink_interval = 500
+
+[cursor.style]
+shape = "Block" 
+blinking = "Always"
+
+[mouse]
+hide_when_typing = true

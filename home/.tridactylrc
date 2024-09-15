@@ -2,10 +2,15 @@ set searchengine ""
 set modeindicator false
 seturl ^https?://gaming.amazon.com noiframe true
 set smoothscroll true
+set incsearch true
+
+bind t tabnew
+bind T tabopen -c Alt
 
 # Vertical Tabs
 bind K tabprev
 bind J tabnext
+bind O fillcmdline tabopen search
 bind <C-j> tabmove +1 
 bind <C-k> tabmove -1 
 
@@ -16,8 +21,8 @@ bind <C-k> tabmove -1
 #bind <C-j> tabmove -1 
 
 set tabopenpos related
-bind O fillcmdline tabopen
-bind t fillcmdline tabopen
+#bind O fillcmdline tabopen
+#bind t fillcmdline tabopen
 bind m mute toggle
 
 bind / fillcmdline find
