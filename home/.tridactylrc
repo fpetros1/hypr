@@ -5,12 +5,13 @@ set smoothscroll true
 set incsearch true
 
 bind t tabnew
-bind T tabopen -c Alt
+bind <A-t> tabopen -c Alt
 
 # Vertical Tabs
 bind K tabprev
 bind J tabnext
-bind O fillcmdline tabopen search
+bind T fillcmdline tab
+bind O fillcmdline tabopen
 bind <C-j> tabmove +1 
 bind <C-k> tabmove -1 
 

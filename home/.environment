@@ -8,7 +8,9 @@ alias lff="eza --icons=always --no-quotes -l -f"
 alias lfa="eza --icons=always --no-quotes -l -f -a"
 alias checkupdates="checkupdates; update-waybar 8; update-waybar 9"
 
-alias sudoedit='sudo nvim'
-alias vim='nvim'
+alias sudo="sudo -E"
+alias sudoedit='sudo launch-editor'
+alias vim='launch-editor'
+alias v='launch-editor'
 alias cat='bat'
 alias cls='command clear'

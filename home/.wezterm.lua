@@ -1,4 +1,5 @@
 local wezterm = require 'wezterm'
+local mux = wezterm.mux
 local config = wezterm.config_builder()
 
 config.window_padding = {
@@ -24,16 +25,20 @@ config.front_end = "WebGpu"
 config.color_schemes = {
     ['Kanagawa'] = {
         foreground = '#DCD7BA',
-        background = '#1F1F28',
         selection_fg = '#DCD7BA',
+        background = '#1F1F28',
         selection_bg = '#223249',
         cursor_bg = '#DCD7BA',
         cursor_fg = '#1F1F28',
         cursor_border = '#DCD7BA',
     }
 }
-
 config.color_scheme = 'Kanagawa'
 config.enable_wayland = true
+
+
+wezterm.on('gui-startup', function(cmd)
+    mux.spawn_window({ args = { 'launch-or-attach-tmux' } })
+end)
 
 return config

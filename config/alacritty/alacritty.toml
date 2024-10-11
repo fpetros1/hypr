@@ -13,7 +13,7 @@ args = ["-c", "launch-or-attach-tmux"]
 dynamic_padding = true
 decorations = "full"
 title = "Alacritty"
-opacity = 0.9
+opacity = 0.95
 decorations_theme_variant = "Dark"
 padding = { x = 15, y = 15 }
 
@@ -28,6 +28,34 @@ general = "Alacritty"
 [scrolling]
 history = 10000
 multiplier = 3
+
+#[colors.primary]
+#background = '#282C34'
+#foreground = '#DFDFDF'
+
+#[colors.normal]
+#black = '#1B2229'
+#blue = '#51AFEF'
+#cyan = '#46D9FF'
+#green = '#98BE65'
+#magenta = '#C678DD'
+#red = '#FF6C6B'
+#white = '#DFDFDF'
+#yellow = '#ECBE7B'
+#
+#[colors.bright]
+#black = '#73797E'
+#blue = '#51AFEF'
+#cyan = '#46D9FF'
+#green = '#98BE65'
+#magenta = '#C678DD'
+#red = '#FF6C6B'
+#white = '#DFDFDF'
+#yellow = '#ECBE7B'
+#
+#[colors.selection]
+#background = '#2257A0'
+#foreground = '#DFDFDF'
 
 [colors.primary]
 background = '#1F1F28'
@@ -44,18 +72,18 @@ white = '#DCD7BA'
 yellow = '#E6C384'
 
 [colors.bright]
-black = '#a6a69c'
-blue = '#7FB4CA'
-cyan = '#7AA89F'
-green = '#87a987'
-magenta = '#938AA9'
-red = '#E46876'
-white = '#c5c9c5'
+black = '#727169'
+blue = '#7E9CD8'
+cyan = '#7FB4CA'
+green = '#98BB6C'
+magenta = '#957FB8'
+red = '#E82424'
+white = '#DCD7BA'
 yellow = '#E6C384'
 
 [colors.selection]
-background = '#DCD7BA'
-foreground = '#1F1F28'
+background = '#223249'
+foreground = '#DCD7BA'
 
 [[colors.indexed_colors]]
 index = 16
@@ -67,23 +95,23 @@ color = '#ff5d62'
 
 [font]
 size = 12
-offset.y = 3
+offset.y = 0
 
 [font.normal]
-family = "Hack Nerd Font Mono"
-style = "Bold"
+family = "0xProto Nerd Font Mono"
+style = "Regular"
 
 [font.bold]
-family = "Hack Nerd Font Mono"
-style = "Bold"
+family = "0xProto Nerd Font Mono"
+style = "Regular"
 
 [font.italic]
-family = "Hack Nerd Font Mono"
+family = "0xProto Nerd Font Mono"
 style = "Italic"
 
 [font.bold_italic]
-family = "Hack Nerd Font Mono"
-style = "Bold Italic"
+family = "0xProto Nerd Font Mono"
+style = "Regular Italic"
 
 [selection]
 semantic_escape_chars = ",│`|:\"' ()[]{}<>\t"
