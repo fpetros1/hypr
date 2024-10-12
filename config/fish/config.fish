@@ -3,6 +3,9 @@ if status is-interactive
 
     set fish_greeting
     fish_vi_key_bindings
+
+    set -Ux EDITOR 'nvim'
+    set -Ux VISUAL 'launch-editor-gui'
    
     alias ls="eza --icons=always --no-quotes -l"
     alias lsa="eza --icons=always --no-quotes -l -a"

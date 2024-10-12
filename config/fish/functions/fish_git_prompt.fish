@@ -115,7 +115,7 @@ function fish_git_prompt
     set_color -o
 
     if test -n "$branch"
-        echo -n (set_color yellow)" on "
+        echo -n (set_color yellow)"  "
         if test $branch_detached -ne 0
             set_color brmagenta
         else
