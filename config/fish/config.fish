@@ -57,4 +57,12 @@ if status is-interactive
     set -g fish_pager_color_description $comment
 
     set fish_prompt_pwd_dir_length 0
+
+    function new_line_after_exec --on-event fish_postexec
+        if [ $argv[1] != 'clear' ] && [ $argv[1] != 'cls' ]
+            echo ''
+        end
+    end
+
+
 end
