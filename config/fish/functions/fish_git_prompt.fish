@@ -1,4 +1,4 @@
-function fish_right_prompt
+function fish_git_prompt
     set -l cmd_status $status
     if test $cmd_status -ne 0
         echo -n (set_color red)"✘ $cmd_status"
@@ -115,12 +115,13 @@ function fish_right_prompt
     set_color -o
 
     if test -n "$branch"
+        echo -n (set_color yellow)" on "
         if test $branch_detached -ne 0
             set_color brmagenta
         else
             set_color green
         end
-        echo -n " $branch"
+        echo -n "$branch"
     end
     if test -n "$commit"
         echo -n ' '(set_color yellow)"$commit"

@@ -1,10 +1,9 @@
 if status is-interactive
-    zoxide init fish | source
+    zoxide init fish --cmd cd | source
 
     set fish_greeting
     fish_vi_key_bindings
    
-    alias cd="z"
     alias ls="eza --icons=always --no-quotes -l"
     alias lsa="eza --icons=always --no-quotes -l -a"
     alias ld="eza --icons=always --no-quotes -l -D"
@@ -55,5 +54,4 @@ if status is-interactive
     set -g fish_pager_color_description $comment
 
     set fish_prompt_pwd_dir_length 0
-
 end
