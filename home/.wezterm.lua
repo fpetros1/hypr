@@ -26,6 +26,7 @@ end
 
 function Linux_config()
     local config = wezterm.config_builder()
+    local mux = wezterm.mux
 
     config.window_padding = {
         left = 20,
@@ -39,26 +40,34 @@ function Linux_config()
     config.cursor_blink_rate = 500
     config.window_close_confirmation = 'NeverPrompt'
     config.enable_tab_bar = false
-    config.font = wezterm.font_with_fallback {
-        'IosevkaTerm Nerd Font Mono',
-        'Hack Nerd Font Mono',
-        'undefined',
+    config.font = wezterm.font {
+        family = 'JetBrainsMono Nerd Font',
+        weight = 'Book'
     }
-    config.line_height = 1.05
-    config.font_size = 14
+    config.line_height = 1.1
+    config.font_size = 12
     config.enable_kitty_graphics = false
     config.warn_about_missing_glyphs = false
     config.front_end = "WebGpu"
-    config.term = "wezterm"
+    config.term = "xterm-256color"
     config.color_scheme = 'Kanagawa (Gogh)'
     config.enable_wayland = false
     config.max_fps = 165
     config.animation_fps = 165
 
+    wezterm.on('gui-attached', function()
+        local workspace = mux.get_active_workspace()
+        for _, window in ipairs(mux.all_windows()) do
+            if window:get_workspace() == workspace then
+                window:gui_window():maximize()
+            end
+        end
+    end)
+
     return config
 end
 
-function Mac_Config()
+function Mac_config()
     local config = wezterm.config_builder()
     local mux = wezterm.mux
 
@@ -74,17 +83,16 @@ function Mac_Config()
     config.cursor_blink_rate = 500
     config.window_close_confirmation = 'NeverPrompt'
     config.enable_tab_bar = false
-    config.font = wezterm.font_with_fallback {
-        'IosevkaTerm Nerd Font Mono',
-        'Hack Nerd Font Mono',
-        'undefined',
+    config.font = wezterm.font {
+        family = 'JetBrainsMono Nerd Font',
+        weight = 'Book'
     }
     config.line_height = 1.05
     config.font_size = 15
     config.enable_kitty_graphics = false
     config.warn_about_missing_glyphs = false
     config.front_end = "WebGpu"
-    config.term = "wezterm"
+    config.term = "xterm-256color"
     config.color_scheme = 'Kanagawa (Gogh)'
     config.max_fps = 165
     config.animation_fps = 165
