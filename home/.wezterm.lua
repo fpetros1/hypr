@@ -41,10 +41,10 @@ function Linux_config()
     config.window_close_confirmation = 'NeverPrompt'
     config.enable_tab_bar = false
     config.font = wezterm.font {
-        family = 'JetBrainsMono Nerd Font',
-        weight = 'Book'
+        family = 'FiraCode Nerd Font Mono',
+        weight = 'Regular'
     }
-    config.line_height = 1.1
+    config.line_height = 1.2
     config.font_size = 12
     config.enable_kitty_graphics = false
     config.warn_about_missing_glyphs = false
@@ -84,10 +84,10 @@ function Mac_config()
     config.window_close_confirmation = 'NeverPrompt'
     config.enable_tab_bar = false
     config.font = wezterm.font {
-        family = 'JetBrainsMono Nerd Font',
-        weight = 'Book'
+        family = 'FiraCode Nerd Font Mono',
+        weight = 'Regular'
     }
-    config.line_height = 1.05
+    config.line_height = 1.2
     config.font_size = 15
     config.enable_kitty_graphics = false
     config.warn_about_missing_glyphs = false
